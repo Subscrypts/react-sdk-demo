@@ -1,3 +1,21 @@
+/**
+ * Account Dashboard Page
+ *
+ * This page demonstrates user account management with:
+ * - Wallet information display
+ * - Token balance tracking (SUBS, USDC)
+ * - Subscription status for all plans
+ * - Manual subscription management
+ *
+ * SDK v1.3.0 Enhancement Path:
+ * - Replace manual subscription display with <SubscriptionDashboard> component
+ * - Add <ManageSubscriptionModal> for subscription management
+ * - Integrate useSubscryptsEvents for real-time updates
+ *
+ * Current Implementation: Manual using useSubscriptionStatus for each plan
+ * Recommended: Use useMySubscriptions hook + SubscriptionCard components (v1.3.0)
+ */
+
 import { useWallet, useTokenBalance, useSubscriptionStatus } from '@subscrypts/react-sdk';
 import { Link, Navigate } from 'react-router-dom';
 import { DEMO_PLANS } from '../config/plans';
@@ -48,6 +66,31 @@ function Account() {
   return (
     <div className="bg-gray-50 py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Developer Note - SDK v1.3.0 Enhancement */}
+        <div className="mb-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-blue-800">
+                SDK v1.3.0 Enhancement Available
+              </h3>
+              <div className="mt-2 text-sm text-blue-700">
+                <p>This page uses manual subscription management. With SDK v1.3.0+, you can replace this with:</p>
+                <ul className="list-disc list-inside mt-1 space-y-1">
+                  <li><code className="bg-blue-100 px-1 rounded">SubscriptionDashboard</code> - Complete dashboard with pagination</li>
+                  <li><code className="bg-blue-100 px-1 rounded">useMySubscriptions</code> - Paginated subscription list hook</li>
+                  <li><code className="bg-blue-100 px-1 rounded">ManageSubscriptionModal</code> - Subscription management UI</li>
+                  <li><code className="bg-blue-100 px-1 rounded">useSubscryptsEvents</code> - Real-time event listeners</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
@@ -118,6 +161,23 @@ function Account() {
         </div>
 
         {/* Subscriptions */}
+        {/*
+          SDK v1.3.0 Alternative: Replace this entire section with:
+
+          <SubscriptionDashboard
+            pageSize={10}
+            onManage={(subscriptionId) => {
+              // Open ManageSubscriptionModal
+            }}
+            showPagination={true}
+            emptyComponent={
+              <EmptyStateWithLinkToPricing />
+            }
+          />
+
+          This provides: automatic pagination, loading states, error handling,
+          status badges, and built-in management integration.
+        */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-900">

@@ -1,11 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useWallet } from '@subscrypts/react-sdk';
+import { useState } from 'react';
 
 function Header() {
   const { isConnected, address, connect, disconnect } = useWallet();
   const location = useLocation();
+  const [examplesOpen, setExamplesOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
+  const isExamplesActive = () =>
+    location.pathname.startsWith('/examples') ||
+    location.pathname === '/merchant';
 
   const truncateAddress = (addr: string) => {
     return `${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}`;
@@ -67,6 +72,84 @@ function Header() {
             >
               Premium
             </Link>
+
+            {/* Examples Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setExamplesOpen(true)}
+              onMouseLeave={() => setExamplesOpen(false)}
+            >
+              <button
+                className={`text-sm font-medium transition-colors flex items-center gap-1 ${
+                  isExamplesActive()
+                    ? 'text-blue-600'
+                    : 'text-gray-700 hover:text-blue-600'
+                }`}
+              >
+                Examples
+                <svg
+                  className={`w-4 h-4 transition-transform ${
+                    examplesOpen ? 'rotate-180' : ''
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              {/* Dropdown Menu */}
+              {examplesOpen && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                  <Link
+                    to="/examples/hooks"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    🪝 Hooks
+                  </Link>
+                  <Link
+                    to="/examples/components"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    🧩 Components
+                  </Link>
+                  <Link
+                    to="/examples/utilities"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    🔧 Utilities
+                  </Link>
+                  <Link
+                    to="/examples/advanced"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    ⚙️ Advanced
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Merchant Link */}
+            <Link
+              to="/merchant"
+              className={`text-sm font-medium transition-colors flex items-center gap-1 ${
+                isActive('/merchant')
+                  ? 'text-blue-600'
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              <span>Merchant</span>
+              <span className="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-semibold">
+                v1.4.0
+              </span>
+            </Link>
+
             {isConnected && (
               <Link
                 to="/account"

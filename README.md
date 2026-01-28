@@ -1,10 +1,12 @@
 # Subscrypts React SDK Demo
 
-A production-ready demo application showcasing the [Subscrypts React SDK](https://github.com/Subscrypts/react-sdk). This boilerplate demonstrates how to build subscription-based applications on Arbitrum with wallet integration, content protection, and seamless checkout flows.
+A comprehensive demo application showcasing **ALL features** of the [Subscrypts React SDK v1.4.0](https://github.com/Subscrypts/react-sdk). This production-ready boilerplate demonstrates how to build subscription-based applications on Arbitrum with wallet integration, content protection, seamless checkout flows, and powerful developer tools.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Subscrypts/react-sdk-demo)
 
-> ✨ **Built with the latest Subscrypts React SDK** - All contract addresses pre-configured! Zero additional setup needed.
+> ✨ **Built with Subscrypts React SDK v1.4.0** - Showcases **16 hooks**, **15 components**, and **22+ utilities** with live, interactive examples!
+>
+> 🎓 **Perfect for Learning** - Context-aware developer documentation sidebar on every page with copy-pasteable code examples.
 
 ## 🚀 Quick Start
 
@@ -63,52 +65,101 @@ You should see the demo application running! 🎉
 
 ---
 
-## 📋 Features Showcase
+## 📋 What's Included
 
-This demo showcases all major features of the Subscrypts React SDK:
+This demo includes **9 pages** showcasing every feature of the Subscrypts React SDK:
 
-### 🔐 Wallet Integration
-- **Component**: Header with wallet connection
-- **Location**: [src/components/layout/Header.tsx](src/components/layout/Header.tsx)
-- **Features**:
-  - Connect/disconnect MetaMask
-  - Display truncated wallet address
-  - Automatic network detection (Arbitrum)
+### 🏠 Core Application Pages
 
-### 🛡️ Content Protection
-- **Component**: SubscriptionGuard
-- **Location**: [src/pages/Premium.tsx](src/pages/Premium.tsx)
-- **Features**:
-  - Automatic access control
-  - Redirect non-subscribers to pricing
-  - Loading states during verification
+#### **Home** - `/`
+Your subscription app landing page with SDK setup and features overview.
 
-### 💳 Checkout Flow
-- **Component**: SubscryptsButton & CheckoutWizard
-- **Location**: [src/pages/Pricing.tsx](src/pages/Pricing.tsx)
-- **Features**:
-  - Multi-step checkout modal
-  - Payment method selection (SUBS or USDC)
-  - Subscription duration options (12, 24, 36 months)
-  - Auto-renewal toggle
-  - Transaction status tracking
+#### **Pricing** - `/pricing`
+Interactive subscription plans with one-click checkout using `SubscryptsButton`.
+- Multi-step checkout modal with transaction tracking
+- Payment method selection (SUBS or USDC)
+- Real-time token balance display
+- Subscription duration options
 
-### 💰 Token Balances
-- **Hook**: useTokenBalance
-- **Location**: [src/pages/Pricing.tsx](src/pages/Pricing.tsx)
-- **Features**:
-  - Real-time SUBS and USDC balance display
-  - Automatic balance refresh
-  - Support for multiple payment methods
+#### **Premium** - `/premium`
+Protected content demonstration using `SubscriptionGuard` component.
+- Automatic access control
+- Multi-plan protection support (v1.1.0+)
+- Custom fallback components
 
-### 📊 Subscription Status
-- **Hook**: useSubscriptionStatus
-- **Location**: [src/pages/Account.tsx](src/pages/Account.tsx)
-- **Features**:
-  - Check active subscriptions
-  - Display expiration dates
-  - Show auto-renewal status
-  - View remaining cycles
+#### **Account** - `/account`
+User dashboard for subscription management.
+- Wallet information and token balances
+- Active subscription status for all plans
+- Expiration dates and auto-renewal status
+- Path to v1.3.0 `SubscriptionDashboard` component
+
+#### **Merchant** - `/merchant` 🆕 **(v1.4.0)**
+Business owner dashboard for managing subscription revenue.
+- Monthly Recurring Revenue (MRR) tracking
+- Subscriber lists with pagination
+- Plan management overview
+- Uses `useMerchantPlans`, `useMerchantSubscribers`, `useMerchantRevenue` hooks
+
+### 📖 Developer Showcase Pages
+
+#### **Hooks** - `/examples/hooks` 🆕
+Comprehensive showcase of **all 16 SDK hooks** with live examples:
+- **Core**: `useWallet`, `useTokenBalance`, `useSubscrypts`
+- **Subscription**: `useSubscriptionStatus`, `useSubscribe`, `useMySubscriptions`
+- **Plan**: `usePlan`, `usePlans`, `usePlansByMerchant`, `usePlanPrice`
+- **Pricing**: `useSUBSPrice`
+- **Management**: `useManageSubscription`
+- **Merchant**: `useMerchantPlans`, `useMerchantSubscribers`, `useMerchantRevenue`
+- **Events**: `useSubscryptsEvents`
+
+#### **Components** - `/examples/components` 🆕
+Interactive showcase of **all 15 SDK components**:
+- **Checkout**: `SubscryptsButton`, `CheckoutWizard`
+- **Protection**: `SubscriptionGuard`
+- **Pricing**: `PlanCard`, `PricingTable`
+- **Dashboard**: `SubscriptionCard`, `SubscriptionDashboard`
+- **Management**: `ManageSubscriptionModal`, `ConfirmDialog`
+- **Merchant**: `MerchantDashboard`
+- **Wallet**: `ConnectWalletModal`
+- **Error Handling**: `ErrorDisplay`, `NetworkSwitchPrompt`, `SubscryptsErrorBoundary`
+- **UI**: `LoadingSpinner`
+
+#### **Utilities** - `/examples/utilities` 🆕
+Demonstrations of **22+ utility functions**:
+- **Formatters**: `formatTokenAmount`, `formatSubs`, `formatUsdc`, `formatFiatPrice`, `formatDate`
+- **Validators**: `validateAddress`, `validatePositiveNumber`, `validatePlanId`
+- **Helpers**: `shortenAddress`, `canAccess`, `isPaymentDue`, `shouldRenew`, `getSubscriptionHealth`
+- **Error Handling**: `getErrorMessage`, `getErrorCode`
+- **Session Management**: `saveSession`, `loadSession`, `clearSession`
+- **Network Info**: Contract addresses, chain ID, RPC URLs
+
+#### **Advanced** - `/examples/advanced` 🆕
+Advanced SDK features for power users:
+- Provider configuration options
+- Custom wallet connectors
+- External provider integration (Wagmi, RainbowKit)
+- Error boundaries and recovery strategies
+- Debug logging system
+- Direct contract access patterns
+- Security best practices
+
+### 🎓 Developer Experience Features
+
+#### **Context-Aware Documentation Sidebar**
+Every page includes a collapsible sidebar with:
+- Relevant code examples for the current page
+- Full TypeScript interfaces and prop tables
+- Copy-to-clipboard functionality
+- Links to SDK documentation
+- Version compatibility notes
+
+#### **Modular Architecture**
+Demonstrates SDK update best practices:
+- Centralized feature registry ([src/config/sdkFeatures.ts](src/config/sdkFeatures.ts))
+- Version-agnostic code examples
+- Isolated demo components
+- Easy update path (see [UPDATING_SDK.md](UPDATING_SDK.md))
 
 ---
 
@@ -118,27 +169,63 @@ This demo showcases all major features of the Subscrypts React SDK:
 react-sdk-demo/
 ├── src/
 │   ├── pages/
-│   │   ├── Home.tsx              # Landing page (public)
-│   │   ├── Pricing.tsx           # Subscription plans showcase
-│   │   ├── Premium.tsx           # Protected premium content
-│   │   └── Account.tsx           # Subscription management
+│   │   ├── Home.tsx                    # Landing page
+│   │   ├── Pricing.tsx                 # Subscription plans
+│   │   ├── Premium.tsx                 # Protected content
+│   │   ├── Account.tsx                 # User dashboard
+│   │   ├── Merchant.tsx                # Merchant dashboard (v1.4.0)
+│   │   └── examples/
+│   │       ├── Hooks.tsx               # All SDK hooks showcase
+│   │       ├── Components.tsx          # All SDK components showcase
+│   │       ├── Utilities.tsx           # All SDK utilities showcase
+│   │       └── Advanced.tsx            # Advanced features showcase
 │   ├── components/
 │   │   ├── layout/
-│   │   │   ├── Header.tsx        # Navigation + wallet connection
-│   │   │   └── Footer.tsx        # Footer with links
-│   │   └── subscription/
-│   │       └── PlanCard.tsx      # Subscription plan card
+│   │   │   ├── Header.tsx              # Navigation + Examples dropdown
+│   │   │   └── Footer.tsx              # Footer with links
+│   │   ├── subscription/
+│   │   │   └── PlanCard.tsx            # Subscription plan card
+│   │   └── dev/
+│   │       ├── DevSidebar.tsx          # Context-aware documentation sidebar
+│   │       ├── DevToggleButton.tsx     # Sidebar toggle button
+│   │       ├── DevSection.tsx          # Documentation section
+│   │       ├── CodeBlock.tsx           # Syntax-highlighted code
+│   │       └── PropTable.tsx           # Props/parameters table
 │   ├── config/
-│   │   └── plans.ts              # Subscription plans configuration
+│   │   ├── plans.ts                    # Demo subscription plans
+│   │   └── sdkFeatures.ts              # SDK feature registry (v1.4.0)
+│   ├── utils/
+│   │   ├── devDocs/                    # Page-specific documentation
+│   │   │   ├── homeDocs.ts
+│   │   │   ├── pricingDocs.ts
+│   │   │   ├── premiumDocs.ts
+│   │   │   ├── accountDocs.ts
+│   │   │   ├── merchantDocs.ts
+│   │   │   ├── hooksDocs.ts
+│   │   │   ├── componentsDocs.ts
+│   │   │   ├── utilitiesDocs.ts
+│   │   │   ├── advancedDocs.ts
+│   │   │   └── index.ts                # Route mapping
+│   │   ├── codeExamples/               # Copy-pasteable code examples
+│   │   │   ├── hooks.ts                # All hook examples
+│   │   │   ├── components.ts           # All component examples
+│   │   │   ├── utilities.ts            # All utility examples
+│   │   │   └── index.ts
+│   │   └── sdkFeatureDetection.ts      # Feature availability checks
+│   ├── types/
+│   │   └── devDocs.ts                  # Documentation type definitions
+│   ├── hooks/
+│   │   └── useDevSidebar.ts            # Sidebar state management
 │   ├── styles/
-│   │   └── index.css             # Global styles + Tailwind
-│   ├── App.tsx                   # Main app with routing
-│   └── main.tsx                  # Entry point with SubscryptsProvider
+│   │   └── index.css                   # Global styles + Tailwind
+│   ├── App.tsx                         # Main app with 9 routes
+│   └── main.tsx                        # Entry point with SubscryptsProvider
 ├── public/
-├── .env.example                  # Environment variables template
-├── package.json
-├── vite.config.ts
-└── README.md
+├── .env.example                        # Environment variables template
+├── package.json                        # Dependencies (SDK v1.4.0)
+├── vite.config.ts                      # Vite build configuration
+├── UPDATING_SDK.md                     # SDK update process guide
+└── README.md                           # This file
 ```
 
 ---
@@ -365,14 +452,30 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 ## 🙏 Acknowledgments
 
 Built with:
-- [Vite](https://vitejs.dev/) - Next generation frontend tooling
-- [React](https://react.dev/) - UI library
-- [TypeScript](https://www.typescriptlang.org/) - Type safety
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS
-- [Arbitrum](https://arbitrum.io/) - Layer 2 scaling solution
+- [Subscrypts React SDK v1.4.0](https://github.com/Subscrypts/react-sdk) - Official React SDK for decentralized subscriptions
+- [Vite 5.0](https://vitejs.dev/) - Next generation frontend tooling
+- [React 18.2](https://react.dev/) - UI library
+- [TypeScript 5.3](https://www.typescriptlang.org/) - Type safety
+- [Tailwind CSS 3.4](https://tailwindcss.com/) - Utility-first CSS
+- [React Router 6.20](https://reactrouter.com/) - Routing
+- [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter) - Code syntax highlighting for documentation
+- [Arbitrum One](https://arbitrum.io/) - Layer 2 scaling solution
 
 ---
 
 **Made with ❤️ by the Subscrypts team**
 
 For more information, visit [subscrypts.com](https://subscrypts.com)
+
+## 📊 SDK Version History
+
+This demo tracks SDK updates to showcase modular architecture best practices:
+
+- **v1.4.0** (2026-01-28) - Merchant Toolkit: `useMerchantPlans`, `useMerchantSubscribers`, `useMerchantRevenue`, `MerchantDashboard`
+- **v1.3.0** - Dashboard Components: `SubscriptionDashboard`, `SubscriptionCard`, `useMySubscriptions`, `useSubscryptsEvents`
+- **v1.2.0** - Management & Pricing: `useManageSubscription`, `ManageSubscriptionModal`, `useSUBSPrice`, `usePlanPrice`, decision helpers
+- **v1.1.0** - Error Handling: `ErrorDisplay`, `NetworkSwitchPrompt`, `SubscryptsErrorBoundary`, custom connectors, session persistence
+- **v1.0.11** - Plans: `usePlan`, `usePlans`, `PlanCard`, `PricingTable`, provider lifecycle callbacks
+- **v1.0.0** - Core: `useWallet`, `useSubscriptionStatus`, `SubscryptsButton`, `SubscriptionGuard`, `CheckoutWizard`
+
+See [UPDATING_SDK.md](UPDATING_SDK.md) for the complete update process from v1.0.9 → v1.4.0.
