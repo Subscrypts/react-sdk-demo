@@ -12,7 +12,19 @@ import {
   UseWalletDemo,
   UseTokenBalanceDemo,
   UseSubscriptionStatusDemo,
+  UseSubscribeDemo,
+  UseMySubscriptionsDemo,
   UsePlanDemo,
+  UsePlansDemo,
+  UsePlansByMerchantDemo,
+  UsePlanPriceDemo,
+  UseSUBSPriceDemo,
+  UseManageSubscriptionDemo,
+  UseMerchantPlansDemo,
+  UseMerchantSubscribersDemo,
+  UseMerchantRevenueDemo,
+  UseSubscryptsEventsDemo,
+  UseSubscryptsDemo,
 } from '../../components/examples/hooks';
 
 export default function HooksPage() {
@@ -63,6 +75,7 @@ export default function HooksPage() {
         >
           <UseWalletDemo />
           <UseTokenBalanceDemo />
+          <UseSubscryptsDemo />
         </DemoSection>
 
         {/* Subscription Hooks */}
@@ -72,24 +85,8 @@ export default function HooksPage() {
           description="Check subscription status, create subscriptions, and manage user subscriptions."
         >
           <UseSubscriptionStatusDemo />
-
-          {/* Placeholder sections for other hooks */}
-          <div className="bg-gray-50 border border-gray-300 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">More Subscription Hooks</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li className="flex items-center gap-2">
-                <span className="text-blue-600">→</span>
-                <strong>useSubscribe</strong> - Manual subscription flow with transaction tracking
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-blue-600">→</span>
-                <strong>useMySubscriptions (v1.3.0)</strong> - Paginated list of user subscriptions
-              </li>
-            </ul>
-            <p className="mt-4 text-xs text-gray-500">
-              Additional demo components coming soon
-            </p>
-          </div>
+          <UseSubscribeDemo />
+          <UseMySubscriptionsDemo />
         </DemoSection>
 
         {/* Plan Hooks */}
@@ -99,28 +96,9 @@ export default function HooksPage() {
           description="Fetch subscription plan details, search plans, and display pricing information."
         >
           <UsePlanDemo />
-
-          {/* Placeholder for other plan hooks */}
-          <div className="bg-gray-50 border border-gray-300 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">More Plan Hooks</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li className="flex items-center gap-2">
-                <span className="text-blue-600">→</span>
-                <strong>usePlans (v1.0.11)</strong> - Fetch multiple plans in parallel
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-blue-600">→</span>
-                <strong>usePlansByMerchant (v1.2.0)</strong> - Get all plans by merchant address
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-blue-600">→</span>
-                <strong>usePlanPrice (v1.2.0)</strong> - Get plan price with USD conversion
-              </li>
-            </ul>
-            <p className="mt-4 text-xs text-gray-500">
-              Additional demo components coming soon
-            </p>
-          </div>
+          <UsePlansDemo />
+          <UsePlansByMerchantDemo />
+          <UsePlanPriceDemo />
         </DemoSection>
 
         {/* Pricing & Management Hooks */}
@@ -129,22 +107,8 @@ export default function HooksPage() {
           title="💰 Pricing & Management"
           description="Get token prices and manage active subscriptions."
         >
-          <div className="bg-gray-50 border border-gray-300 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Pricing & Management Hooks</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li className="flex items-center gap-2">
-                <span className="text-blue-600">→</span>
-                <strong>useSUBSPrice (v1.2.0)</strong> - Current SUBS/USD price with auto-refresh
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-blue-600">→</span>
-                <strong>useManageSubscription (v1.2.0)</strong> - Cancel, toggle auto-renewal, update cycles
-              </li>
-            </ul>
-            <p className="mt-4 text-xs text-gray-500">
-              Demo components coming soon
-            </p>
-          </div>
+          <UseSUBSPriceDemo />
+          <UseManageSubscriptionDemo />
         </DemoSection>
 
         {/* Merchant Hooks (v1.4.0) */}
@@ -153,39 +117,9 @@ export default function HooksPage() {
           title="👔 Merchant Toolkit (v1.4.0)"
           description="Manage subscription business with revenue tracking and subscriber analytics."
         >
-          <div className="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-300 rounded-lg p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">🆕</span>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  New in v1.4.0: Merchant Hooks
-                </h3>
-                <p className="text-sm text-gray-600">
-                  Complete toolkit for subscription business management
-                </p>
-              </div>
-            </div>
-            <ul className="space-y-2 text-sm text-gray-700 mb-4">
-              <li className="flex items-center gap-2">
-                <span className="text-purple-600">→</span>
-                <strong>useMerchantPlans</strong> - Fetch all plans owned by merchant
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-purple-600">→</span>
-                <strong>useMerchantSubscribers</strong> - Paginated subscribers for a plan
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-purple-600">→</span>
-                <strong>useMerchantRevenue</strong> - Calculate MRR from active subscriptions
-              </li>
-            </ul>
-            <a
-              href="/merchant"
-              className="inline-block px-4 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
-            >
-              See Live Merchant Dashboard →
-            </a>
-          </div>
+          <UseMerchantPlansDemo />
+          <UseMerchantSubscribersDemo />
+          <UseMerchantRevenueDemo />
         </DemoSection>
 
         {/* Event Hooks */}
@@ -194,17 +128,7 @@ export default function HooksPage() {
           title="📡 Real-Time Events (v1.3.0)"
           description="Listen for live protocol events like subscriptions, payments, and cancellations."
         >
-          <div className="bg-gray-50 border border-gray-300 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">useSubscryptsEvents (v1.3.0)</h3>
-            <p className="text-gray-700 mb-4">
-              Real-time protocol event listeners for live dashboard updates. Listen for subscription
-              creation, payments, and cancellations without polling.
-            </p>
-            <div className="bg-blue-50 border border-blue-200 rounded p-4 text-sm text-gray-700">
-              <p>✨ <strong>Real-Time Updates:</strong> Uses ethers.js contract.on() for instant event notifications.</p>
-              <p className="mt-2">Demo component coming soon. Check the Account page for usage examples.</p>
-            </div>
-          </div>
+          <UseSubscryptsEventsDemo />
         </DemoSection>
 
         {/* Summary */}

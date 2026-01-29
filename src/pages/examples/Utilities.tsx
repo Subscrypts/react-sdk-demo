@@ -5,6 +5,15 @@
  */
 
 import { SDK_UTILITIES } from '../../config/sdkFeatures';
+import { DemoSection } from '../../components/examples/shared';
+import {
+  FormattersDemo,
+  ValidatorsDemo,
+  DecisionHelpersDemo,
+  ErrorHandlingDemo,
+  SessionManagementDemo,
+  NetworkInfoDemo,
+} from '../../components/examples/utilities';
 
 export default function UtilitiesPage() {
   return (
@@ -37,242 +46,58 @@ export default function UtilitiesPage() {
       {/* Utility Categories */}
       <div className="max-w-6xl mx-auto space-y-16">
         {/* Formatters */}
-        <section id="formatters">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-blue-600">🔢</span>
-            Formatters
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Format blockchain data (token amounts, dates, addresses) for display.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Token Formatters</h3>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  <code className="text-blue-600">formatTokenAmount()</code>
-                  <span className="text-gray-500">Generic bigint formatter</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <code className="text-blue-600">formatSubs()</code>
-                  <span className="text-gray-500">SUBS token formatter</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <code className="text-blue-600">formatUsdc()</code>
-                  <span className="text-gray-500">USDC formatter (6 decimals)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <code className="text-blue-600">parseTokenAmount()</code>
-                  <span className="text-gray-500">String to bigint</span>
-                </li>
-              </ul>
-              <div className="mt-4 bg-gray-50 rounded p-3 text-sm text-gray-600">
-                Interactive demo will be added here
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                Price & Date Formatters
-              </h3>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  <code className="text-blue-600">formatFiatPrice()</code>
-                  <span className="text-gray-500">USD with locale</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <code className="text-blue-600">formatDate()</code>
-                  <span className="text-gray-500">Date formatting</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <code className="text-blue-600">formatDateTime()</code>
-                  <span className="text-gray-500">Date with time</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <code className="text-blue-600">shortenAddress()</code>
-                  <span className="text-gray-500">Address truncation</span>
-                </li>
-              </ul>
-              <div className="mt-4 bg-gray-50 rounded p-3 text-sm text-gray-600">
-                Interactive demo will be added here
-              </div>
-            </div>
-          </div>
-        </section>
+        <DemoSection
+          id="formatters"
+          title="🔢 Formatters"
+          description="Format blockchain data (token amounts, dates, addresses) for display."
+        >
+          <FormattersDemo />
+        </DemoSection>
 
         {/* Validators */}
-        <section id="validators">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-green-600">✅</span>
-            Validators
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Validate user input and blockchain data before transactions.
-          </p>
-
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Available Validators</h3>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center gap-2">
-                    <code className="text-green-600">validateAddress()</code>
-                    <span className="text-gray-500">Ethereum address</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <code className="text-green-600">validatePositiveNumber()</code>
-                    <span className="text-gray-500">Positive numbers</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <code className="text-green-600">validatePlanId()</code>
-                    <span className="text-gray-500">Plan ID validation</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-gray-50 rounded p-4 text-sm text-gray-600">
-                Interactive validation demo will be added here
-              </div>
-            </div>
-          </div>
-        </section>
+        <DemoSection
+          id="validators"
+          title="✅ Validators"
+          description="Validate user input and blockchain data before transactions."
+        >
+          <ValidatorsDemo />
+        </DemoSection>
 
         {/* Decision Helpers */}
-        <section id="decision-helpers">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-purple-600">🎯</span>
-            Decision Helpers (v1.2.0)
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Make subscription access decisions with pure utility functions.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Access Control</h3>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  <code className="text-purple-600">canAccess()</code>
-                  <span className="text-gray-500">Check active access</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <code className="text-purple-600">isPaymentDue()</code>
-                  <span className="text-gray-500">Check overdue</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <code className="text-purple-600">shouldRenew()</code>
-                  <span className="text-gray-500">Check auto-renew</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Health Check</h3>
-              <p className="text-sm text-gray-600 mb-3">
-                <code className="text-purple-600">getSubscriptionHealth()</code> combines all checks
-                for comprehensive status.
-              </p>
-              <div className="bg-gray-50 rounded p-3 text-xs font-mono">
-                Returns: hasAccess, isPaymentDue, shouldRenew, expiresIn, status, concerns
-              </div>
-            </div>
-          </div>
-        </section>
+        <DemoSection
+          id="decision-helpers"
+          title="🎯 Decision Helpers (v1.2.0)"
+          description="Make subscription access decisions with pure utility functions."
+        >
+          <DecisionHelpersDemo />
+        </DemoSection>
 
         {/* Error Handling */}
-        <section id="error-utilities">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-red-600">❌</span>
-            Error Handling (v1.1.0)
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Convert technical blockchain errors to user-friendly messages.
-          </p>
-
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center gap-2">
-                    <code className="text-red-600">getErrorMessage()</code>
-                    <span className="text-gray-500">User-friendly messages</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <code className="text-red-600">getErrorCode()</code>
-                    <span className="text-gray-500">Extract error codes</span>
-                  </li>
-                </ul>
-                <div className="mt-4 text-xs text-gray-600">
-                  <strong>Supported errors:</strong> ACTION_REJECTED, INSUFFICIENT_FUNDS,
-                  CALL_EXCEPTION, NETWORK_ERROR, TIMEOUT
-                </div>
-              </div>
-              <div className="bg-gray-50 rounded p-4 text-sm text-gray-600">
-                Error simulator demo will be added here
-              </div>
-            </div>
-          </div>
-        </section>
+        <DemoSection
+          id="error-utilities"
+          title="❌ Error Handling (v1.1.0)"
+          description="Convert technical blockchain errors to user-friendly messages."
+        >
+          <ErrorHandlingDemo />
+        </DemoSection>
 
         {/* Session Management */}
-        <section id="session">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-indigo-600">💾</span>
-            Session Management (v1.1.0)
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Persist wallet connections with 7-day session expiry.
-          </p>
-
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center gap-2">
-                    <code className="text-indigo-600">saveSession()</code>
-                    <span className="text-gray-500">Save to localStorage</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <code className="text-indigo-600">loadSession()</code>
-                    <span className="text-gray-500">Load from storage</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <code className="text-indigo-600">clearSession()</code>
-                    <span className="text-gray-500">Clear session</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <code className="text-indigo-600">isSessionStale()</code>
-                    <span className="text-gray-500">Check 7-day expiry</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-gray-50 rounded p-4 text-sm text-gray-600">
-                Session demo will be added here
-              </div>
-            </div>
-          </div>
-        </section>
+        <DemoSection
+          id="session"
+          title="💾 Session Management (v1.1.0)"
+          description="Persist wallet connections with 7-day session expiry."
+        >
+          <SessionManagementDemo />
+        </DemoSection>
 
         {/* Network Constants */}
-        <section id="constants">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-orange-600">📌</span>
-            Network & Contract Info
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Contract addresses and network configuration for Arbitrum One.
-          </p>
-
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-            <div className="bg-gray-50 rounded p-4 text-sm text-gray-600 mb-4">
-              Contract addresses display with copy-to-clipboard will be added here
-            </div>
-            <div className="text-xs text-gray-500">
-              <strong>Available constants:</strong> SUBSCRYPTS_ADDRESS, SUBS_TOKEN_ADDRESS,
-              USDC_ADDRESS, PERMIT2_ADDRESS, DEX_QUOTER_ADDRESS, DEX_ROUTER_ADDRESS, ARBITRUM_ONE
-            </div>
-          </div>
-        </section>
+        <DemoSection
+          id="constants"
+          title="📌 Network & Contract Info"
+          description="Contract addresses and network configuration for Arbitrum One."
+        >
+          <NetworkInfoDemo />
+        </DemoSection>
 
         {/* Summary */}
         <section className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-8 border border-purple-200">

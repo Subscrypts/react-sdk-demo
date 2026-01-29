@@ -22,8 +22,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Organized by category (Checkout, Protection, Pricing, Dashboard, etc.)
 - **Utilities Showcase** (`/examples/utilities`) - Demonstrations of 22+ utility functions
   - Formatters, validators, helpers, error handling, and session management
-- **Advanced Features** (`/examples/advanced`) - Advanced SDK patterns and configurations
-  - Provider configuration, custom connectors, error boundaries, logging
+- **Advanced Features** (`/examples/advanced`) - Advanced SDK patterns with **5 comprehensive demos**
+  - **ProviderConfigDemo** (277 lines) - All 10 SubscryptsProvider configuration options
+    - Interactive debug level switching (silent/info/debug)
+    - Event callbacks (onAccountChange, onChainChange) with simulation
+    - External wallet integration patterns (Privy, RainbowKit, Wagmi)
+    - Custom RPC URLs and balance refresh interval examples
+  - **LoggerDemo** (342 lines) - SDK logger utility with full feature demonstration
+    - Live log level configuration and switching
+    - All 5 logging methods: debug(), info(), warn(), error(), success()
+    - Grouped logging and table output examples
+    - In-app log output display with browser console integration
+  - **ErrorPatternsDemo** (509 lines) - Robust error handling best practices
+    - 5 interactive error handling patterns
+    - All 7 SDK error classes demonstrated (SubscryptsError, WalletError, NetworkError, etc.)
+    - Retry logic with exponential backoff
+    - Graceful degradation and fallback strategies
+  - **PermitSigningDemo** (329 lines) - PERMIT2 signature generation
+    - EIP-712 typed data signing for gasless token approvals
+    - Interactive form with amount and deadline parameters
+    - Security considerations and best practices
+    - Integration examples with subscription flow
+  - **DirectContractDemo** (437 lines) - Direct contract access patterns
+    - useSubscrypts hook for raw access to contracts, signer, provider
+    - Live wallet state, network info, and contract availability display
+    - Custom RPC calls, token transfers, and event listening examples
+    - Interactive balance refresh and contract method demonstrations
 
 #### Developer Experience
 - **Context-Aware Documentation Sidebar** - Collapsible sidebar on every page
@@ -95,7 +119,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### File Structure Changes
 ```
-New Files Created (~50 files):
+New Files Created (~60 files):
 - src/pages/Merchant.tsx
 - src/pages/examples/Hooks.tsx
 - src/pages/examples/Components.tsx
@@ -103,7 +127,15 @@ New Files Created (~50 files):
 - src/pages/examples/Advanced.tsx
 - src/components/dev/* (7 files)
 - src/components/examples/shared/* (3 files)
-- src/components/examples/hooks/* (5 files)
+- src/components/examples/hooks/* (16 files)
+- src/components/examples/components/* (16 files)
+- src/components/examples/utilities/* (6 files)
+- src/components/examples/advanced/* (5 files + index.ts)
+  - ProviderConfigDemo.tsx
+  - LoggerDemo.tsx
+  - ErrorPatternsDemo.tsx
+  - PermitSigningDemo.tsx
+  - DirectContractDemo.tsx
 - src/utils/devDocs/* (10 files)
 - src/utils/codeExamples/* (4 files)
 - src/config/sdkFeatures.ts
@@ -116,13 +148,15 @@ New Files Created (~50 files):
 - `src/components/layout/Header.tsx` - Added Examples dropdown and Merchant link
 - `src/pages/Account.tsx` - Added v1.3.0 enhancement documentation
 - `package.json` - Updated SDK version to 1.4.0
-- `README.md` - Complete rewrite with comprehensive documentation
+- `README.md` - Complete rewrite with comprehensive documentation, detailed Advanced demos section
+- `CHANGELOG.md` - Detailed documentation of all 5 advanced demos with line counts and features
 
 #### Build & Performance
-- Production build: 6.10s
-- Bundle size: 1,344 KB (gzipped: 439 KB)
+- Production build: 7.83s
+- Bundle size: 1,611.54 KB (gzipped: 487.73 KB)
 - TypeScript strict mode enabled
-- All type errors resolved
+- All type errors resolved (0 errors)
+- 1,368 modules transformed
 
 ### SDK Features Showcased
 

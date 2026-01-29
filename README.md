@@ -135,14 +135,12 @@ Demonstrations of **22+ utility functions**:
 - **Network Info**: Contract addresses, chain ID, RPC URLs
 
 #### **Advanced** - `/examples/advanced` 🆕
-Advanced SDK features for power users:
-- Provider configuration options
-- Custom wallet connectors
-- External provider integration (Wagmi, RainbowKit)
-- Error boundaries and recovery strategies
-- Debug logging system
-- Direct contract access patterns
-- Security best practices
+Advanced SDK features and patterns for power users with **5 interactive demos**:
+- **Provider Configuration** - All 10 SubscryptsProvider options with interactive debug level switching, event callbacks, external wallet integration, custom RPC, and balance refresh settings
+- **Logger Utility** - SDK logging system with live log level configuration (silent/info/debug), demonstrations of all logging methods, grouped logging, and table output
+- **Error Handling Patterns** - 5 error handling patterns (try-catch, type checking, error utilities, retry logic, graceful degradation) with all 7 custom error classes
+- **PERMIT2 Signatures** - EIP-712 signature generation for gasless token approvals with interactive form, security considerations, and integration examples
+- **Direct Contract Access** - useSubscrypts hook for raw contract/signer/provider access, custom RPC calls, token transfers, and event listening
 
 ### 🎓 Developer Experience Features
 

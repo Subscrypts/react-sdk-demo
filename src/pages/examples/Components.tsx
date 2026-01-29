@@ -5,6 +5,22 @@
  */
 
 import { SDK_COMPONENTS } from '../../config/sdkFeatures';
+import { DemoSection } from '../../components/examples/shared';
+import {
+  SubscryptsButtonDemo,
+  SubscriptionGuardDemo,
+  PlanCardDemo,
+  SubscriptionCardDemo,
+  SubscriptionDashboardDemo,
+  MerchantDashboardDemo,
+  CheckoutWizardDemo,
+  PricingTableDemo,
+  ManageSubscriptionModalDemo,
+  ConfirmDialogDemo,
+  ErrorDisplayDemo,
+  NetworkSwitchPromptDemo,
+  UIComponentsDemo,
+} from '../../components/examples/components';
 
 export default function ComponentsPage() {
   return (
@@ -21,136 +37,96 @@ export default function ComponentsPage() {
       {/* Component Categories */}
       <div className="max-w-6xl mx-auto space-y-16">
         {/* Checkout & Subscription */}
-        <section id="checkout">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-blue-600">🛒</span>
-            Checkout & Subscription
-          </h2>
-          <p className="text-gray-600 mb-8">
-            One-click subscription buttons and full checkout wizard for seamless subscription flows.
-          </p>
-
-          <div className="grid gap-6">
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">SubscryptsButton</h3>
-              <p className="text-sm text-gray-500 mb-4">Since v1.0.0</p>
-              <p className="text-gray-700 mb-4">
-                One-click subscription with built-in checkout wizard, payment processing, and
-                transaction tracking.
-              </p>
-              <div className="bg-gray-50 rounded p-4 text-sm text-gray-600">
-                Demo component will be added here
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">CheckoutWizard</h3>
-              <p className="text-sm text-gray-500 mb-4">Since v1.0.0</p>
-              <p className="text-gray-700 mb-4">
-                Standalone multi-step checkout modal with transaction tracking and Arbiscan links.
-              </p>
-              <div className="bg-gray-50 rounded p-4 text-sm text-gray-600">
-                Demo component will be added here
-              </div>
-            </div>
+        <DemoSection
+          id="checkout"
+          title="🛒 Checkout & Subscription"
+          description="One-click subscription buttons and full checkout wizard for seamless subscription flows."
+        >
+          <div className="space-y-8">
+            <SubscryptsButtonDemo />
+            <CheckoutWizardDemo />
           </div>
-        </section>
+        </DemoSection>
 
         {/* Content Protection */}
-        <section id="protection">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-green-600">🔒</span>
-            Content Protection
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Gate content based on subscription status with flexible access control.
-          </p>
-
-          <div className="grid gap-6">
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">SubscriptionGuard</h3>
-              <p className="text-sm text-gray-500 mb-4">Since v1.0.0 • Enhanced v1.1.0</p>
-              <p className="text-gray-700 mb-4">
-                Multi-plan protection with planIds and requireAll props for flexible access control.
-              </p>
-              <div className="bg-gray-50 rounded p-4 text-sm text-gray-600">
-                Demo component will be added here
-              </div>
-            </div>
-          </div>
-        </section>
+        <DemoSection
+          id="protection"
+          title="🔒 Content Protection"
+          description="Gate content based on subscription status with flexible access control."
+        >
+          <SubscriptionGuardDemo />
+        </DemoSection>
 
         {/* Pricing & Plans */}
-        <section id="pricing">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-purple-600">💵</span>
-            Pricing & Plans
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Display subscription plans in cards or tables with customizable fields.
-          </p>
-
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
-            <p className="text-yellow-800">
-              <strong>Note:</strong> Demo components for PlanCard and PricingTable (v1.0.11) will
-              be added.
-            </p>
+        <DemoSection
+          id="pricing"
+          title="💵 Pricing & Plans (v1.0.11)"
+          description="Display subscription plans in cards or tables with customizable fields."
+        >
+          <div className="space-y-8">
+            <PlanCardDemo />
+            <PricingTableDemo />
           </div>
-        </section>
+        </DemoSection>
 
         {/* Subscriber Dashboard */}
-        <section id="dashboard">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-indigo-600">📊</span>
-            Subscriber Dashboard (v1.3.0)
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Complete subscription dashboard with status badges, pagination, and management.
-          </p>
+        <DemoSection
+          id="dashboard"
+          title="📊 Subscriber Dashboard (v1.3.0)"
+          description="Complete subscription dashboard with status badges, pagination, and management."
+        >
+          <div className="space-y-8">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <p className="text-blue-800">
+                <strong>✨ New in v1.3.0:</strong> SubscriptionCard and SubscriptionDashboard
+                components for complete user subscription management.
+              </p>
+            </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-            <p className="text-blue-800">
-              <strong>✨ New in v1.3.0:</strong> SubscriptionCard and SubscriptionDashboard
-              components for complete user subscription management.
-            </p>
+            <SubscriptionCardDemo />
+            <SubscriptionDashboardDemo />
+            <ManageSubscriptionModalDemo />
+            <ConfirmDialogDemo />
           </div>
-        </section>
+        </DemoSection>
 
         {/* Merchant Dashboard */}
-        <section id="merchant">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-red-600">👔</span>
-            Merchant Dashboard (v1.4.0)
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Complete merchant overview with revenue metrics, plan list, and subscriber details.
-          </p>
+        <DemoSection
+          id="merchant"
+          title="👔 Merchant Dashboard (v1.4.0)"
+          description="Complete merchant overview with revenue metrics, plan list, and subscriber details."
+        >
+          <div className="space-y-8">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <p className="text-blue-800">
+                <strong>✨ New in v1.4.0:</strong> MerchantDashboard component with MRR tracking
+                and subscriber management.
+              </p>
+            </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-            <p className="text-blue-800">
-              <strong>✨ New in v1.4.0:</strong> MerchantDashboard component with MRR tracking
-              and subscriber management.
-            </p>
+            <MerchantDashboardDemo />
           </div>
-        </section>
+        </DemoSection>
 
         {/* Error Handling & UI */}
-        <section id="error-ui">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <span className="text-orange-600">❌</span>
-            Error Handling & UI
-          </h2>
-          <p className="text-gray-600 mb-8">
-            User-friendly error displays, network switching, error boundaries, and loading states.
-          </p>
+        <DemoSection
+          id="error-ui"
+          title="❌ Error Handling & UI (v1.1.0)"
+          description="User-friendly error displays, network switching, error boundaries, and loading states."
+        >
+          <div className="space-y-8">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <p className="text-blue-800">
+                <strong>✨ New in v1.1.0:</strong> ErrorDisplay and NetworkSwitchPrompt components
+                for better user experience and error handling.
+              </p>
+            </div>
 
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
-            <p className="text-yellow-800">
-              <strong>Note:</strong> Demo components for ErrorDisplay, NetworkSwitchPrompt,
-              SubscryptsErrorBoundary (v1.1.0), and UI primitives will be added.
-            </p>
+            <ErrorDisplayDemo />
+            <NetworkSwitchPromptDemo />
+            <UIComponentsDemo />
           </div>
-        </section>
+        </DemoSection>
 
         {/* Summary */}
         <section className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-8 border border-green-200">
