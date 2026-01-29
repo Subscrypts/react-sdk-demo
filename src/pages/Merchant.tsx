@@ -9,6 +9,12 @@
  */
 
 import { useWallet } from '@subscrypts/react-sdk';
+import { MerchantDashboardDemo } from '../components/examples/components';
+import {
+  UseMerchantRevenueDemo,
+  UseMerchantPlansDemo,
+  UseMerchantSubscribersDemo,
+} from '../components/examples/hooks';
 
 export default function MerchantPage() {
   const { isConnected, address, connect } = useWallet();
@@ -113,21 +119,7 @@ export default function MerchantPage() {
               component. It uses all three merchant hooks internally.
             </p>
 
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-                <p className="text-yellow-800">
-                  <strong>📍 Demo Component:</strong> The MerchantDashboard component demo will be
-                  added here. It will display:
-                </p>
-                <ul className="list-disc list-inside mt-3 text-yellow-700 space-y-1">
-                  <li>Monthly Recurring Revenue (MRR) cards with USD conversion</li>
-                  <li>Active subscriber count across all plans</li>
-                  <li>List of all merchant plans with subscriber counts</li>
-                  <li>Paginated subscriber list for selected plan</li>
-                  <li>Real-time data from the blockchain</li>
-                </ul>
-              </div>
-            </div>
+            <MerchantDashboardDemo />
           </section>
 
           {/* Individual Hooks Demos */}
@@ -151,9 +143,7 @@ export default function MerchantPage() {
                   Calculate MRR from active subscriptions, normalized to monthly amounts with USD
                   conversion.
                 </p>
-                <div className="bg-gray-50 rounded p-4 text-sm text-gray-600">
-                  Revenue calculation demo will be added here
-                </div>
+                <UseMerchantRevenueDemo />
               </div>
 
               {/* useMerchantPlans */}
@@ -167,9 +157,7 @@ export default function MerchantPage() {
                 <p className="text-gray-600 mb-4">
                   Fetch all subscription plans owned by the connected merchant wallet.
                 </p>
-                <div className="bg-gray-50 rounded p-4 text-sm text-gray-600">
-                  Plans list demo will be added here
-                </div>
+                <UseMerchantPlansDemo />
               </div>
 
               {/* useMerchantSubscribers */}
@@ -183,9 +171,7 @@ export default function MerchantPage() {
                 <p className="text-gray-600 mb-4">
                   Paginated list of subscribers for a specific plan with active count.
                 </p>
-                <div className="bg-gray-50 rounded p-4 text-sm text-gray-600">
-                  Subscribers list demo will be added here
-                </div>
+                <UseMerchantSubscribersDemo />
               </div>
             </div>
           </section>
