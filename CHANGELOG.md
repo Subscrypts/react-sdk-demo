@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+#### SDK Version
+- **Upgraded** @subscrypts/react-sdk from 1.4.0 to 1.4.1
+  - Fixes critical subscription detection bug in v1.4.0
+  - Patch version with full backward compatibility
+
+#### Code Quality - Account Page
+- **Refactored** to use SDK's `canAccess()` utility
+  - Removed custom `isSubscriptionActive()` helper (lines 87-90)
+  - Replaced with SDK's `canAccess(subscription)` (available since v1.2.0)
+  - More robust: checks both subscription status and nextPaymentDate
+  - Demonstrates proper SDK usage patterns
+
+#### Code Cleanup
+- **Removed Custom Debug Code** from Account page
+  - Deleted debug UI panel (lines 102-124)
+  - Deleted debug console logging useEffect (lines 43-64)
+  - This was troubleshooting code added to diagnose subscription detection bug
+  - No longer needed after SDK v1.4.1 upgrade fixes the bug
+  - SDK's own logging (via `<SubscryptsProvider debug>`) is sufficient
+  - Cleaner production code
+
+### Technical Details
+- Modified Files:
+  - `package.json` - SDK version bump to 1.4.1
+  - `package-lock.json` - Lock file update
+  - `src/pages/Account.tsx` - Use `canAccess()`, removed debug code
+  - `CHANGELOG.md` - This update
+
+- Breaking Changes: None (patch version upgrade)
+
 ### Added - Major v1.4.0 Update
 
 #### New Pages

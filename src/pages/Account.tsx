@@ -16,10 +16,9 @@
  * Recommended: Use useMySubscriptions hook + SubscriptionCard components (v1.3.0)
  */
 
-import { useWallet, useTokenBalance, useMySubscriptions } from '@subscrypts/react-sdk';
+import { useWallet, useTokenBalance, useMySubscriptions, canAccess } from '@subscrypts/react-sdk';
 import { Link, Navigate } from 'react-router-dom';
 import { DEMO_PLANS } from '../config/plans';
-import { useEffect } from 'react';
 
 function Account() {
   const { isConnected, address, disconnect } = useWallet();
@@ -39,29 +38,6 @@ function Account() {
     const isMerchantPlan = merchantPlans.some(plan => plan.id === sub.planId);
     return isMerchantPlan;
   });
-
-  // Debug logging to diagnose subscription detection issues
-  useEffect(() => {
-    console.log('[Account Debug] Wallet address:', address);
-    console.log('[Account Debug] useMySubscriptions loading:', subsLoading2);
-    console.log('[Account Debug] useMySubscriptions error:', subsError);
-    console.log('[Account Debug] All blockchain subscriptions:', allSubscriptions);
-    console.log('[Account Debug] All subscriptions count:', allSubscriptions.length);
-    console.log('[Account Debug] Filtered demo plan subscriptions (active + inactive):', subscriptions);
-    console.log('[Account Debug] Filtered subscriptions count:', subscriptions.length);
-    if (subscriptions.length > 0) {
-      subscriptions.forEach((sub, i) => {
-        console.log(`[Account Debug] Active Subscription ${i}:`, {
-          id: sub.id.toString(),
-          planId: sub.planId,
-          subscriber: sub.subscriber,
-          nextPaymentDate: sub.nextPaymentDate,
-          isAutoRenewing: sub.isAutoRenewing,
-          remainingCycles: sub.remainingCycles,
-        });
-      });
-    }
-  }, [address, allSubscriptions, subscriptions, subsLoading2, subsError]);
 
   // Redirect to home if wallet not connected
   if (!isConnected) {
@@ -84,11 +60,6 @@ function Account() {
     });
   };
 
-  const isSubscriptionActive = (nextPaymentDate: Date | null) => {
-    if (!nextPaymentDate) return false;
-    return new Date(nextPaymentDate) > new Date();
-  };
-
   const handleDisconnect = async () => {
     if (disconnect) {
       await disconnect();
@@ -98,32 +69,7 @@ function Account() {
   return (
     <div className="bg-gray-50 py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Debug Info */}
-        <div className="mb-6 bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
-          <div className="flex items-start">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-yellow-800">
-                Debug Information (Production Testing)
-              </h3>
-              <div className="mt-2 text-xs font-mono text-yellow-700 space-y-1">
-                <div>Wallet Address: {address || 'Not connected'}</div>
-                <div>Loading: {String(subsLoading2)}</div>
-                <div>Error: {subsError?.message || 'None'}</div>
-                <div>All Blockchain Subscriptions: {allSubscriptions.length}</div>
-                <div>Filtered Subscriptions (Active + Inactive): {subscriptions.length}</div>
-                <div>Query Address: {address ? `${address.substring(0, 10)}...${address.substring(address.length - 8)}` : 'undefined'}</div>
-                <div>Merchant Plan IDs (Demo): {merchantPlans.map(p => p.id).join(', ')}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Developer Note - SDK v1.4.0 Implementation */}
+        {/* Developer Note - SDK v1.4.1 Implementation */}
         <div className="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded">
           <div className="flex items-start">
             <div className="flex-shrink-0">
@@ -133,15 +79,14 @@ function Account() {
             </div>
             <div className="ml-3">
               <h3 className="text-sm font-medium text-green-800">
-                SDK v1.4.0 Implementation
+                SDK v1.4.1 Implementation
               </h3>
               <div className="mt-2 text-sm text-green-700">
-                <p>This page now uses modern SDK v1.3.0+ patterns for automatic subscription detection:</p>
+                <p>This page uses modern SDK patterns:</p>
                 <ul className="list-disc list-inside mt-1 space-y-1">
-                  <li><code className="bg-green-100 px-1 rounded">useMySubscriptions</code> - Fetches all on-chain subscriptions automatically</li>
-                  <li>Detects subscriptions to ANY plan, not just demo plans</li>
-                  <li>Displays real blockchain data: next payment date, auto-renewal, remaining cycles</li>
-                  <li>No hardcoded plan IDs required</li>
+                  <li><code className="bg-green-100 px-1 rounded">useMySubscriptions</code> - Fetches all subscriptions</li>
+                  <li><code className="bg-green-100 px-1 rounded">canAccess()</code> - Validates active access (v1.2.0)</li>
+                  <li>No custom validation logic - uses SDK utilities</li>
                 </ul>
               </div>
             </div>
@@ -274,7 +219,7 @@ function Account() {
               {subscriptions.map((subscription) => {
                 const matchingPlan = DEMO_PLANS.find(plan => plan.id === subscription.planId);
                 const planName = matchingPlan ? `${matchingPlan.name} Plan` : `Plan ${subscription.planId}`;
-                const isActive = isSubscriptionActive(subscription.nextPaymentDate);
+                const isActive = canAccess(subscription);
 
                 return (
                   <div
