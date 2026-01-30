@@ -9,7 +9,9 @@ function PremiumContent() {
 
   // Filter for subscriptions to demo plans
   const activeSubscriptions = subscriptions.map(sub => {
-    const matchingPlan = DEMO_PLANS.find(plan => plan.id === sub.planId);
+    // Convert numeric planId from blockchain to string for comparison with DEMO_PLANS
+    const planIdStr = String(sub.planId);
+    const matchingPlan = DEMO_PLANS.find(plan => plan.id === planIdStr);
     return matchingPlan ? { plan: matchingPlan, subscription: sub } : null;
   }).filter((item): item is { plan: typeof DEMO_PLANS[0]; subscription: typeof subscriptions[0] } => item !== null);
 

@@ -39,6 +39,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Breaking Changes: None (patch version upgrade)
 
+### Fixed
+
+#### Plan ID Type Mismatch (Critical Bug)
+- **Root Cause:** String vs number type mismatch between DEMO_PLANS configuration and SDK subscription objects
+  - DEMO_PLANS.id: string ("1", "2", "3") from environment variables
+  - subscription.planId: number (1, 2, 3) from blockchain smart contract
+  - Strict equality comparison ("1" === 1) always returned false
+
+- **Impact:** All subscription detection failed across the demo
+  - Account page showed "no subscriptions" despite active on-chain subscription
+  - Premium page incorrectly redirected to /pricing
+  - useSubscriptionStatus and useMySubscriptions appeared to return no data
+
+- **Fix:** Convert numeric subscription.planId to string for comparisons
+  - Account.tsx: Fixed filtering logic (line 40)
+  - Account.tsx: Fixed plan display matching (line 266)
+  - Premium.tsx: Fixed activeSubscriptions mapping (line 13)
+  - All comparisons now use String(sub.planId) for type-safe matching
+
+- **Files Modified:**
+  - src/pages/Account.tsx
+  - src/pages/Premium.tsx
+  - CHANGELOG.md
+
+- **Testing:** Verified with wallet 0x8ED1f25ab90Fa078aBdb35a2d88fe8B35281Fd27 subscribed to plan ID 1
+
 ### Added - Major v1.4.0 Update
 
 #### New Pages

@@ -7,6 +7,26 @@ export interface PlanConfig {
   recommended: boolean;
 }
 
+/**
+ * Demo plan configurations
+ *
+ * IMPORTANT: Plan IDs are strings because environment variables are always strings in JavaScript.
+ * When comparing with SDK subscription objects (from blockchain), convert subscription.planId to string:
+ *
+ * @example
+ * // ❌ WRONG - Type mismatch (string vs number)
+ * const match = DEMO_PLANS.find(plan => plan.id === subscription.planId);
+ *
+ * @example
+ * // ✅ CORRECT - Convert blockchain number to string
+ * const planIdStr = String(subscription.planId);
+ * const match = DEMO_PLANS.find(plan => plan.id === planIdStr);
+ *
+ * Why this matters:
+ * - Environment variables (import.meta.env.VITE_*) are always strings
+ * - Blockchain smart contracts return planId as uint256 (JavaScript number)
+ * - Strict equality (===) requires matching types
+ */
 export const DEMO_PLANS: PlanConfig[] = [
   {
     id: import.meta.env.VITE_DEMO_PLAN_ID_BASIC || '1',

@@ -35,7 +35,9 @@ function Account() {
   // Filter to show ALL subscriptions (active AND inactive) to this merchant's plans only (plan IDs 1 and 2)
   const merchantPlans = DEMO_PLANS.slice(0, 2); // Only Basic (ID 1) and Pro (ID 2)
   const subscriptions = allSubscriptions.filter(sub => {
-    const isMerchantPlan = merchantPlans.some(plan => plan.id === sub.planId);
+    // Convert numeric planId from blockchain to string for comparison with DEMO_PLANS
+    const planIdStr = String(sub.planId);
+    const isMerchantPlan = merchantPlans.some(plan => plan.id === planIdStr);
     return isMerchantPlan;
   });
 
@@ -217,7 +219,9 @@ function Account() {
           {!subsLoading2 && subscriptions.length > 0 && (
             <div className="space-y-4">
               {subscriptions.map((subscription) => {
-                const matchingPlan = DEMO_PLANS.find(plan => plan.id === subscription.planId);
+                // Convert numeric planId from blockchain to string for comparison with DEMO_PLANS
+                const planIdStr = String(subscription.planId);
+                const matchingPlan = DEMO_PLANS.find(plan => plan.id === planIdStr);
                 const planName = matchingPlan ? `${matchingPlan.name} Plan` : `Plan ${subscription.planId}`;
                 const isActive = canAccess(subscription);
 
