@@ -1,18 +1,17 @@
-import { SubscriptionGuard, useSubscriptionStatus } from '@subscrypts/react-sdk';
+import { SubscriptionGuard, useWallet, useMySubscriptions } from '@subscrypts/react-sdk';
 import { Link } from 'react-router-dom';
 import { DEMO_PLANS } from '../config/plans';
 
 function PremiumContent() {
-  // Get subscription status for all plans to show which ones user has
-  const basicStatus = useSubscriptionStatus(DEMO_PLANS[0].id);
-  const proStatus = useSubscriptionStatus(DEMO_PLANS[1].id);
-  const enterpriseStatus = useSubscriptionStatus(DEMO_PLANS[2].id);
+  // Fetch ALL user's subscriptions from blockchain (v1.3.0+)
+  const { address } = useWallet();
+  const { subscriptions } = useMySubscriptions(address || undefined, 10);
 
-  const activeSubscriptions = [
-    { plan: DEMO_PLANS[0], status: basicStatus.status },
-    { plan: DEMO_PLANS[1], status: proStatus.status },
-    { plan: DEMO_PLANS[2], status: enterpriseStatus.status },
-  ].filter((sub) => sub.status?.isActive);
+  // Filter for subscriptions to demo plans
+  const activeSubscriptions = subscriptions.map(sub => {
+    const matchingPlan = DEMO_PLANS.find(plan => plan.id === sub.planId);
+    return matchingPlan ? { plan: matchingPlan, subscription: sub } : null;
+  }).filter((item): item is { plan: typeof DEMO_PLANS[0]; subscription: typeof subscriptions[0] } => item !== null);
 
   const formatDate = (date: Date | null) => {
     if (!date) return 'N/A';
@@ -58,7 +57,7 @@ function PremiumContent() {
           </h2>
           {activeSubscriptions.length > 0 ? (
             <div className="space-y-4">
-              {activeSubscriptions.map(({ plan, status }) => (
+              {activeSubscriptions.map(({ plan, subscription }) => (
                 <div
                   key={plan.id}
                   className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg"
@@ -68,9 +67,9 @@ function PremiumContent() {
                       {plan.name} Plan
                     </h3>
                     <p className="text-sm text-gray-600">
-                      Expires: {formatDate(status?.expirationDate || null)}
+                      Next Payment: {formatDate(subscription.nextPaymentDate)}
                     </p>
-                    {status?.isAutoRenewing && (
+                    {subscription.isAutoRenewing && (
                       <p className="text-sm text-green-600 font-medium">
                         ✓ Auto-renewing
                       </p>
@@ -241,10 +240,11 @@ function PremiumContent() {
 function Premium() {
   // Wrap the premium content with SubscriptionGuard
   // This will automatically redirect to /pricing if user doesn't have any active subscription
-  // For demo purposes, we're checking against the Pro plan (you can adjust this logic)
+  // Accepts subscription to ANY of the demo plans (Basic, Pro, or Enterprise)
   return (
     <SubscriptionGuard
-      planId={DEMO_PLANS[1].id} // Check against Pro plan
+      planIds={DEMO_PLANS.map(p => p.id)} // Accept Basic, Pro, OR Enterprise
+      requireAll={false} // Any active subscription grants access
       fallbackUrl="/pricing"
     >
       <PremiumContent />

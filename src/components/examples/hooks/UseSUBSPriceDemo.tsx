@@ -12,6 +12,9 @@ export function UseSUBSPriceDemo() {
   const [refreshInterval, setRefreshInterval] = useState<number>(30000); // 30 seconds default
   const { priceUsd, isLoading, error, refetch } = useSUBSPrice(refreshInterval);
 
+  // Convert BigInt to number for display and calculations
+  const priceNumber = priceUsd !== null ? Number(priceUsd) : null;
+
   const intervalOptions = [
     { label: '10 seconds', value: 10000 },
     { label: '30 seconds', value: 30000 },
@@ -59,7 +62,7 @@ export function UseSUBSPriceDemo() {
             <div className="text-center mb-4">
               <div className="text-sm text-gray-600 mb-2">Current SUBS Price</div>
               <div className="text-5xl font-bold text-green-600">
-                ${priceUsd !== null ? priceUsd.toFixed(6) : '0.000000'}
+                ${priceNumber !== null ? priceNumber.toFixed(6) : '0.000000'}
               </div>
               <div className="text-sm text-gray-500 mt-2">USD per SUBS token</div>
             </div>
@@ -74,21 +77,21 @@ export function UseSUBSPriceDemo() {
             </div>
 
             {/* Price Examples */}
-            {priceUsd !== null && (
+            {priceNumber !== null && (
               <div className="mt-4 pt-4 border-t border-green-200">
                 <div className="text-xs font-medium text-gray-700 mb-2">Example Conversions:</div>
                 <div className="space-y-2 text-xs text-gray-600">
                   <div className="flex justify-between">
                     <span>100 SUBS =</span>
-                    <span className="font-semibold">${(priceUsd * 100).toFixed(2)} USD</span>
+                    <span className="font-semibold">${(priceNumber * 100).toFixed(2)} USD</span>
                   </div>
                   <div className="flex justify-between">
                     <span>1,000 SUBS =</span>
-                    <span className="font-semibold">${(priceUsd * 1000).toFixed(2)} USD</span>
+                    <span className="font-semibold">${(priceNumber * 1000).toFixed(2)} USD</span>
                   </div>
                   <div className="flex justify-between">
                     <span>10,000 SUBS =</span>
-                    <span className="font-semibold">${(priceUsd * 10000).toFixed(2)} USD</span>
+                    <span className="font-semibold">${(priceNumber * 10000).toFixed(2)} USD</span>
                   </div>
                 </div>
               </div>
@@ -121,7 +124,8 @@ export function UseSUBSPriceDemo() {
         <div className="bg-gray-50 rounded-lg p-3">
           <h4 className="font-semibold text-gray-900 mb-2 text-sm">Return Values:</h4>
           <div className="text-xs font-mono text-gray-700 space-y-1">
-            <div>priceUsd: {priceUsd !== null ? priceUsd.toString() : 'null'}</div>
+            <div>priceUsd (BigInt): {priceUsd !== null ? priceUsd.toString() : 'null'}</div>
+            <div>priceNumber (converted): {priceNumber !== null ? priceNumber.toFixed(6) : 'null'}</div>
             <div>isLoading: {String(isLoading)}</div>
             <div>error: {error ? 'Error object' : 'null'}</div>
           </div>
