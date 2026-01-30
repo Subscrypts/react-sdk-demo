@@ -35,5 +35,6 @@ restart-*
 
 # Additional Directories/Files
 claude
+.claude/
 temp
 
