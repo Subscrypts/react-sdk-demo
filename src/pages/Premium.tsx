@@ -240,11 +240,11 @@ function PremiumContent() {
 function Premium() {
   // Wrap the premium content with SubscriptionGuard
   // This will automatically redirect to /pricing if user doesn't have any active subscription
-  // Accepts subscription to ANY of the demo plans (Basic, Pro, or Enterprise)
+  // Only accepts subscriptions to plan IDs 1 and 2 (Basic and Pro) - the merchant's plans for this demo
   return (
     <SubscriptionGuard
-      planIds={DEMO_PLANS.map(p => p.id)} // Accept Basic, Pro, OR Enterprise
-      requireAll={false} // Any active subscription grants access
+      planIds={DEMO_PLANS.slice(0, 2).map(p => p.id)} // Accept ONLY Basic (ID 1) and Pro (ID 2)
+      requireAll={false} // Any active subscription to these plans grants access
       fallbackUrl="/pricing"
     >
       <PremiumContent />

@@ -28,21 +28,30 @@ function Account() {
 
   // Fetch ALL user's subscriptions from blockchain (v1.3.0+)
   const {
-    subscriptions,
+    subscriptions: allSubscriptions,
     isLoading: subsLoading2,
     error: subsError,
   } = useMySubscriptions(address || undefined, 10);
+
+  // Filter to show ALL subscriptions (active AND inactive) to this merchant's plans only (plan IDs 1 and 2)
+  const merchantPlans = DEMO_PLANS.slice(0, 2); // Only Basic (ID 1) and Pro (ID 2)
+  const subscriptions = allSubscriptions.filter(sub => {
+    const isMerchantPlan = merchantPlans.some(plan => plan.id === sub.planId);
+    return isMerchantPlan;
+  });
 
   // Debug logging to diagnose subscription detection issues
   useEffect(() => {
     console.log('[Account Debug] Wallet address:', address);
     console.log('[Account Debug] useMySubscriptions loading:', subsLoading2);
     console.log('[Account Debug] useMySubscriptions error:', subsError);
-    console.log('[Account Debug] useMySubscriptions subscriptions:', subscriptions);
-    console.log('[Account Debug] Subscriptions count:', subscriptions.length);
+    console.log('[Account Debug] All blockchain subscriptions:', allSubscriptions);
+    console.log('[Account Debug] All subscriptions count:', allSubscriptions.length);
+    console.log('[Account Debug] Filtered demo plan subscriptions (active + inactive):', subscriptions);
+    console.log('[Account Debug] Filtered subscriptions count:', subscriptions.length);
     if (subscriptions.length > 0) {
       subscriptions.forEach((sub, i) => {
-        console.log(`[Account Debug] Subscription ${i}:`, {
+        console.log(`[Account Debug] Active Subscription ${i}:`, {
           id: sub.id.toString(),
           planId: sub.planId,
           subscriber: sub.subscriber,
@@ -52,7 +61,7 @@ function Account() {
         });
       });
     }
-  }, [address, subscriptions, subsLoading2, subsError]);
+  }, [address, allSubscriptions, subscriptions, subsLoading2, subsError]);
 
   // Redirect to home if wallet not connected
   if (!isConnected) {
@@ -105,8 +114,10 @@ function Account() {
                 <div>Wallet Address: {address || 'Not connected'}</div>
                 <div>Loading: {String(subsLoading2)}</div>
                 <div>Error: {subsError?.message || 'None'}</div>
-                <div>Subscriptions Found: {subscriptions.length}</div>
+                <div>All Blockchain Subscriptions: {allSubscriptions.length}</div>
+                <div>Filtered Subscriptions (Active + Inactive): {subscriptions.length}</div>
                 <div>Query Address: {address ? `${address.substring(0, 10)}...${address.substring(address.length - 8)}` : 'undefined'}</div>
+                <div>Merchant Plan IDs (Demo): {merchantPlans.map(p => p.id).join(', ')}</div>
               </div>
             </div>
           </div>
@@ -231,7 +242,7 @@ function Account() {
                 My Subscriptions
               </h2>
               <p className="text-xs text-gray-500 mt-1">
-                Showing all subscriptions (active and inactive)
+                Showing all subscriptions (active and inactive) to our plans
               </p>
             </div>
             <Link
@@ -363,7 +374,7 @@ function Account() {
             </div>
           )}
 
-          {/* No Subscriptions Message */}
+          {/* No Active Subscriptions Message */}
           {!subsLoading2 && !subsError && subscriptions.length === 0 && (
             <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
               <svg
@@ -380,7 +391,7 @@ function Account() {
                 />
               </svg>
               <p className="text-gray-600 mb-4">
-                No subscriptions found for this wallet.
+                You don't have any subscriptions to our plans yet.
               </p>
               <Link
                 to="/pricing"

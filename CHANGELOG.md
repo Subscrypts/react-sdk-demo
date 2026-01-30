@@ -171,22 +171,26 @@ New Files Created (~60 files):
 
 - **Account Page Enhancements** - Added comprehensive subscription display with expandable details
   - Now displays BOTH active AND inactive subscriptions (previously only showed active)
+  - Filters to show ONLY merchant's plans (plan IDs 1 and 2: Basic and Pro)
   - Visual status indicators: green badge/background for active, gray badge/background for inactive
   - Added `isSubscriptionActive()` helper to check if `nextPaymentDate` is in the future
   - Added expandable `<details>` element to view all subscription field values
   - Clicking "Click to view all field values →" reveals complete JSON data with proper BigInt serialization
   - Shows subscriber address field (previously hidden)
-  - Updated section header to clarify "Showing all subscriptions (active and inactive)"
-  - Updated empty state message from "no active subscriptions" to "No subscriptions found for this wallet"
+  - Updated section header to clarify "Showing all subscriptions (active and inactive) to our plans"
+  - Updated empty state message to "You don't have any subscriptions to our plans yet"
+  - Updated debug panel to show "Merchant Plan IDs" and filtered count
   - Improved debugging: users can now inspect complete on-chain subscription data directly in UI
 
 - **Premium Page** - Fixed incorrect redirect despite having active subscription
   - Changed guard from single-plan (`planId`) to multi-plan (`planIds` array)
-  - Now accepts subscription to Basic, Pro, Enterprise, or ANY demo plan (was: Pro only)
-  - Added `requireAll={false}` to accept any active subscription
+  - Now accepts ONLY merchant's plans (plan IDs 1 and 2: Basic and Pro)
+  - Uses `DEMO_PLANS.slice(0, 2)` to filter for merchant's plans only
+  - Added `requireAll={false}` to accept any active subscription to these plans
   - Upgraded content display from `useSubscriptionStatus` to `useMySubscriptions`
   - Shows "Next Payment" date instead of "Expires" (more accurate for active subscriptions)
-  - Fixes issue where users with Basic or Enterprise subscriptions were redirected to /pricing
+  - SubscriptionGuard automatically checks if subscription is active (based on nextPaymentDate)
+  - Fixes issue where users with valid subscriptions were incorrectly redirected to /pricing
 
 - **UseSUBSPrice Hook Demo** - Fixed BigInt conversion error on Hooks page
   - Added proper BigInt to number conversion: `const priceNumber = priceUsd !== null ? Number(priceUsd) : null`
