@@ -158,6 +158,35 @@ New Files Created (~60 files):
 - All type errors resolved (0 errors)
 - 1,368 modules transformed
 
+### Fixed
+
+#### Critical Bug Fixes (Production Testing)
+- **Account Page** - Fixed subscription detection not showing active on-chain subscriptions
+  - Upgraded from v1.0.0 `useSubscriptionStatus` (checks specific plan IDs only) to v1.3.0 `useMySubscriptions` (fetches ALL on-chain subscriptions)
+  - Now detects subscriptions to ANY plan, not just hardcoded demo plans (IDs 1, 2, 3)
+  - Displays real blockchain data: next payment date, subscription ID, auto-renewal status, remaining cycles
+  - Updated developer note badge from blue "Enhancement Available" to green "v1.4.0 Implementation"
+  - Added proper loading, error, and empty states
+  - Fixes issue where users with active subscriptions saw "No subscriptions found"
+
+- **Premium Page** - Fixed incorrect redirect despite having active subscription
+  - Changed guard from single-plan (`planId`) to multi-plan (`planIds` array)
+  - Now accepts subscription to Basic, Pro, Enterprise, or ANY demo plan (was: Pro only)
+  - Added `requireAll={false}` to accept any active subscription
+  - Upgraded content display from `useSubscriptionStatus` to `useMySubscriptions`
+  - Shows "Next Payment" date instead of "Expires" (more accurate for active subscriptions)
+  - Fixes issue where users with Basic or Enterprise subscriptions were redirected to /pricing
+
+- **UseSUBSPrice Hook Demo** - Fixed BigInt conversion error on Hooks page
+  - Added proper BigInt to number conversion: `const priceNumber = priceUsd !== null ? Number(priceUsd) : null`
+  - Updated all `.toFixed()` calls and arithmetic operations to use `priceNumber` instead of raw BigInt
+  - Added display of raw BigInt value for developer reference
+  - Fixes "cannot convert BigInt, BigInt, BigInt" error that prevented price display
+
+**Root Cause**: Account and Premium pages were using outdated v1.0.0 patterns that only checked for subscriptions to specific hardcoded plan IDs. Modern SDK v1.3.0+ patterns use `useMySubscriptions` to automatically fetch ALL on-chain subscriptions without requiring specific plan IDs.
+
+**Impact**: Demo now accurately reflects on-chain subscription state for ALL users, regardless of which plan they're subscribed to. This makes the demo a proper reference implementation that works in real-world scenarios.
+
 ### SDK Features Showcased
 
 #### Hooks (16 total)

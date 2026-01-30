@@ -28,10 +28,12 @@ dist-ssr
 .env.local
 .env.production
 
-# AI Agents
-.claude
-
 # Development helper scripts
 *.bat
 *.cmd
 restart-*
+
+# Additional Directories/Files
+claude
+temp
+
