@@ -75,6 +75,11 @@ function Account() {
     });
   };
 
+  const isSubscriptionActive = (nextPaymentDate: Date | null) => {
+    if (!nextPaymentDate) return false;
+    return new Date(nextPaymentDate) > new Date();
+  };
+
   const handleDisconnect = async () => {
     if (disconnect) {
       await disconnect();
@@ -221,9 +226,14 @@ function Account() {
         */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">
-              My Subscriptions
-            </h2>
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">
+                My Subscriptions
+              </h2>
+              <p className="text-xs text-gray-500 mt-1">
+                Showing all subscriptions (active and inactive)
+              </p>
+            </div>
             <Link
               to="/pricing"
               className="text-sm font-medium text-blue-600 hover:text-blue-700"
@@ -253,11 +263,16 @@ function Account() {
               {subscriptions.map((subscription) => {
                 const matchingPlan = DEMO_PLANS.find(plan => plan.id === subscription.planId);
                 const planName = matchingPlan ? `${matchingPlan.name} Plan` : `Plan ${subscription.planId}`;
+                const isActive = isSubscriptionActive(subscription.nextPaymentDate);
 
                 return (
                   <div
                     key={subscription.id.toString()}
-                    className="p-4 rounded-lg border-2 bg-green-50 border-green-200"
+                    className={`p-4 rounded-lg border-2 ${
+                      isActive
+                        ? 'bg-green-50 border-green-200'
+                        : 'bg-gray-50 border-gray-300'
+                    }`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
@@ -265,8 +280,14 @@ function Account() {
                           <h3 className="text-lg font-semibold text-gray-900 mr-3">
                             {planName}
                           </h3>
-                          <span className="inline-block px-3 py-1 bg-green-600 text-white rounded-full text-sm font-medium">
-                            Active
+                          <span
+                            className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                              isActive
+                                ? 'bg-green-600 text-white'
+                                : 'bg-gray-400 text-white'
+                            }`}
+                          >
+                            {isActive ? 'Active' : 'Inactive'}
                           </span>
                         </div>
 
@@ -279,6 +300,12 @@ function Account() {
                             <span className="font-medium">Subscription ID:</span>{' '}
                             <span className="font-mono text-xs">
                               {subscription.id.toString()}
+                            </span>
+                          </p>
+                          <p className="text-gray-700">
+                            <span className="font-medium">Subscriber Address:</span>{' '}
+                            <span className="font-mono text-xs">
+                              {truncateAddress(subscription.subscriber)}
                             </span>
                           </p>
                           <p className="text-gray-700">
@@ -295,11 +322,30 @@ function Account() {
                           </p>
                           {matchingPlan && (
                             <p className="text-gray-700">
-                              <span className="font-medium">Amount:</span>{' '}
+                              <span className="font-medium">Plan Price:</span>{' '}
                               {matchingPlan.pricePerMonth}
                             </p>
                           )}
                         </div>
+
+                        {/* Expandable Full Subscription Data */}
+                        <details className="mt-3">
+                          <summary className="text-xs text-blue-600 cursor-pointer hover:text-blue-800 font-medium">
+                            Click to view all field values →
+                          </summary>
+                          <div className="bg-white rounded-lg border border-gray-200 p-3 mt-2">
+                            <h4 className="text-xs font-semibold text-gray-700 mb-2">
+                              Complete Subscription Data:
+                            </h4>
+                            <pre className="text-xs text-gray-700 overflow-x-auto whitespace-pre-wrap break-all">
+                              {JSON.stringify(
+                                subscription,
+                                (_key, value) => (typeof value === 'bigint' ? value.toString() : value),
+                                2
+                              )}
+                            </pre>
+                          </div>
+                        </details>
                       </div>
 
                       <div className="ml-4">
@@ -317,7 +363,7 @@ function Account() {
             </div>
           )}
 
-          {/* No Active Subscriptions Message */}
+          {/* No Subscriptions Message */}
           {!subsLoading2 && !subsError && subscriptions.length === 0 && (
             <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
               <svg
@@ -334,7 +380,7 @@ function Account() {
                 />
               </svg>
               <p className="text-gray-600 mb-4">
-                You don't have any active subscriptions yet.
+                No subscriptions found for this wallet.
               </p>
               <Link
                 to="/pricing"

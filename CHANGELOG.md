@@ -169,6 +169,17 @@ New Files Created (~60 files):
   - Added proper loading, error, and empty states
   - Fixes issue where users with active subscriptions saw "No subscriptions found"
 
+- **Account Page Enhancements** - Added comprehensive subscription display with expandable details
+  - Now displays BOTH active AND inactive subscriptions (previously only showed active)
+  - Visual status indicators: green badge/background for active, gray badge/background for inactive
+  - Added `isSubscriptionActive()` helper to check if `nextPaymentDate` is in the future
+  - Added expandable `<details>` element to view all subscription field values
+  - Clicking "Click to view all field values →" reveals complete JSON data with proper BigInt serialization
+  - Shows subscriber address field (previously hidden)
+  - Updated section header to clarify "Showing all subscriptions (active and inactive)"
+  - Updated empty state message from "no active subscriptions" to "No subscriptions found for this wallet"
+  - Improved debugging: users can now inspect complete on-chain subscription data directly in UI
+
 - **Premium Page** - Fixed incorrect redirect despite having active subscription
   - Changed guard from single-plan (`planId`) to multi-plan (`planIds` array)
   - Now accepts subscription to Basic, Pro, Enterprise, or ANY demo plan (was: Pro only)
