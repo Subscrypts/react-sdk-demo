@@ -1,11 +1,11 @@
-import { useWallet, useTokenBalance } from '@subscrypts/react-sdk';
-import { DEMO_PLANS } from '../config/plans';
-import PlanCard from '../components/subscription/PlanCard';
+import { useWallet, useTokenBalance, PricingTable } from '@subscrypts/react-sdk';
+import { useNavigate } from 'react-router-dom';
 
 function Pricing() {
   const { isConnected } = useWallet();
   const { formatted: subsBalance } = useTokenBalance('SUBS');
   const { formatted: usdcBalance } = useTokenBalance('USDC');
+  const navigate = useNavigate();
 
   return (
     <div className="bg-gray-50 py-20">
@@ -77,11 +77,21 @@ function Pricing() {
           </div>
         )}
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {DEMO_PLANS.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} />
-          ))}
+        {/* SDK's PricingTable Component */}
+        <div className="max-w-6xl mx-auto mb-12">
+          <PricingTable
+            plans={[
+              { planId: '1', featured: false },
+              { planId: '2', featured: true },
+              { planId: '3', featured: false }
+            ]}
+            columns={3}
+            showFields={['description', 'amount', 'frequency', 'subscribers']}
+            onSubscriptionSuccess={(subscriptionId, planId) => {
+              console.log('Subscription successful:', subscriptionId, 'for plan:', planId);
+              navigate('/premium');
+            }}
+          />
         </div>
 
         {/* FAQ Section */}

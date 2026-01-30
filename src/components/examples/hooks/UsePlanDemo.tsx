@@ -6,11 +6,11 @@
 
 import { usePlan } from '@subscrypts/react-sdk';
 import { DemoCard } from '../shared';
-import { DEMO_PLANS } from '../../../config/plans';
 import { useState } from 'react';
 
 export function UsePlanDemo() {
-  const [selectedPlanId, setSelectedPlanId] = useState(DEMO_PLANS[0].id);
+  const DEMO_PLAN_IDS = ['1', '2', '3'];
+  const [selectedPlanId, setSelectedPlanId] = useState('1');
   const { plan, isLoading, error, refetch } = usePlan(selectedPlanId);
 
   return (
@@ -30,9 +30,9 @@ export function UsePlanDemo() {
             onChange={(e) => setSelectedPlanId(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            {DEMO_PLANS.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name} Plan (ID: {p.id})
+            {DEMO_PLAN_IDS.map((planId) => (
+              <option key={planId} value={planId}>
+                Plan {planId}
               </option>
             ))}
           </select>

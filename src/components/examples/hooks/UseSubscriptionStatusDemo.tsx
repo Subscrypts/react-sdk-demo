@@ -6,12 +6,12 @@
 
 import { useWallet, useSubscriptionStatus } from '@subscrypts/react-sdk';
 import { DemoCard, ConnectWalletPrompt } from '../shared';
-import { DEMO_PLANS } from '../../../config/plans';
 import { useState } from 'react';
 
 export function UseSubscriptionStatusDemo() {
   const { isConnected } = useWallet();
-  const [selectedPlanId, setSelectedPlanId] = useState(DEMO_PLANS[0].id);
+  const DEMO_PLAN_IDS = ['1', '2', '3'];
+  const [selectedPlanId, setSelectedPlanId] = useState('1');
 
   const { status, isLoading, error, refetch } = useSubscriptionStatus(selectedPlanId);
 
@@ -54,9 +54,9 @@ export function UseSubscriptionStatusDemo() {
             onChange={(e) => setSelectedPlanId(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            {DEMO_PLANS.map((plan) => (
-              <option key={plan.id} value={plan.id}>
-                {plan.name} Plan (ID: {plan.id})
+            {DEMO_PLAN_IDS.map((planId) => (
+              <option key={planId} value={planId}>
+                Plan {planId}
               </option>
             ))}
           </select>

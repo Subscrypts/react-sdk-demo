@@ -1,19 +1,10 @@
 import { SubscriptionGuard, useWallet, useMySubscriptions } from '@subscrypts/react-sdk';
 import { Link } from 'react-router-dom';
-import { DEMO_PLANS } from '../config/plans';
 
 function PremiumContent() {
   // Fetch ALL user's subscriptions from blockchain (v1.3.0+)
   const { address } = useWallet();
   const { subscriptions } = useMySubscriptions(address || undefined, 10);
-
-  // Filter for subscriptions to demo plans
-  const activeSubscriptions = subscriptions.map(sub => {
-    // Convert numeric planId from blockchain to string for comparison with DEMO_PLANS
-    const planIdStr = String(sub.planId);
-    const matchingPlan = DEMO_PLANS.find(plan => plan.id === planIdStr);
-    return matchingPlan ? { plan: matchingPlan, subscription: sub } : null;
-  }).filter((item): item is { plan: typeof DEMO_PLANS[0]; subscription: typeof subscriptions[0] } => item !== null);
 
   const formatDate = (date: Date | null) => {
     if (!date) return 'N/A';
@@ -57,16 +48,16 @@ function PremiumContent() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
             Your Active Subscriptions
           </h2>
-          {activeSubscriptions.length > 0 ? (
+          {subscriptions.length > 0 ? (
             <div className="space-y-4">
-              {activeSubscriptions.map(({ plan, subscription }) => (
+              {subscriptions.map((subscription) => (
                 <div
-                  key={plan.id}
+                  key={subscription.id.toString()}
                   className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg"
                 >
                   <div>
                     <h3 className="font-semibold text-gray-900">
-                      {plan.name} Plan
+                      Plan {subscription.planId}
                     </h3>
                     <p className="text-sm text-gray-600">
                       Next Payment: {formatDate(subscription.nextPaymentDate)}
@@ -245,7 +236,7 @@ function Premium() {
   // Only accepts subscriptions to plan IDs 1 and 2 (Basic and Pro) - the merchant's plans for this demo
   return (
     <SubscriptionGuard
-      planIds={DEMO_PLANS.slice(0, 2).map(p => p.id)} // Accept ONLY Basic (ID 1) and Pro (ID 2)
+      planIds={['1', '2']} // Accept ONLY Basic (ID 1) and Pro (ID 2)
       requireAll={false} // Any active subscription to these plans grants access
       fallbackUrl="/pricing"
     >

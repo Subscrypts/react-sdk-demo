@@ -6,13 +6,13 @@
 
 import { CheckoutWizard, useWallet } from '@subscrypts/react-sdk';
 import { DemoCard, ConnectWalletPrompt } from '../shared';
-import { DEMO_PLANS } from '../../../config/plans';
 import { useState } from 'react';
 
 export function CheckoutWizardDemo() {
   const { isConnected } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedPlanId, setSelectedPlanId] = useState(DEMO_PLANS[0].id);
+  const DEMO_PLAN_IDS = ['1', '2', '3'];
+  const [selectedPlanId, setSelectedPlanId] = useState('1');
   const [lastSubscriptionId, setLastSubscriptionId] = useState<string | null>(null);
 
   if (!isConnected) {
@@ -44,9 +44,9 @@ export function CheckoutWizardDemo() {
             onChange={(e) => setSelectedPlanId(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            {DEMO_PLANS.map((plan) => (
-              <option key={plan.id} value={plan.id}>
-                {plan.name} - {plan.pricePerMonth}
+            {DEMO_PLAN_IDS.map((planId) => (
+              <option key={planId} value={planId}>
+                Plan {planId}
               </option>
             ))}
           </select>

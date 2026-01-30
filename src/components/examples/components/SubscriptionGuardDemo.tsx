@@ -6,14 +6,13 @@
 
 import { SubscriptionGuard, useWallet, useSubscriptionStatus } from '@subscrypts/react-sdk';
 import { DemoCard, ConnectWalletPrompt } from '../shared';
-import { DEMO_PLANS } from '../../../config/plans';
 import { useState } from 'react';
 
 export function SubscriptionGuardDemo() {
   const { isConnected } = useWallet();
   const [mode, setMode] = useState<'single' | 'multi-any' | 'multi-all'>('single');
-  const [selectedPlan1] = useState(DEMO_PLANS[0].id);
-  const [selectedPlan2] = useState(DEMO_PLANS[1]?.id || DEMO_PLANS[0].id);
+  const [selectedPlan1] = useState('1');
+  const [selectedPlan2] = useState('2');
 
   // Check subscription status to show what user would see
   const { status } = useSubscriptionStatus(selectedPlan1);
@@ -99,8 +98,8 @@ export function SubscriptionGuardDemo() {
               <div className="font-semibold">{isActive ? 'Access Granted' : 'No Active Subscription'}</div>
               <div className="text-xs text-gray-600">
                 {isActive
-                  ? `You have an active subscription to ${DEMO_PLANS[0].name}`
-                  : `Subscribe to ${DEMO_PLANS[0].name} to see protected content`
+                  ? `You have an active subscription to Plan 1`
+                  : `Subscribe to Plan 1 to see protected content`
                 }
               </div>
             </div>
@@ -123,7 +122,7 @@ export function SubscriptionGuardDemo() {
                   Premium Content Unlocked!
                 </h3>
                 <p className="text-green-700 mb-4">
-                  You have an active subscription to {DEMO_PLANS[0].name}
+                  You have an active subscription to Plan 1
                 </p>
                 <div className="p-4 bg-white rounded-lg text-left">
                   <h4 className="font-semibold mb-2">Exclusive Content:</h4>
@@ -159,7 +158,7 @@ export function SubscriptionGuardDemo() {
                   You have an active subscription to one of the required plans
                 </p>
                 <div className="text-xs text-gray-600 mt-2">
-                  Accepted plans: {DEMO_PLANS[0].name} or {DEMO_PLANS[1]?.name || 'Plan 2'}
+                  Accepted plans: Plan 1 or Plan 2
                 </div>
               </div>
             </SubscriptionGuard>
@@ -186,7 +185,7 @@ export function SubscriptionGuardDemo() {
                   You have active subscriptions to all required plans
                 </p>
                 <div className="text-xs text-gray-600 mt-2">
-                  Required: {DEMO_PLANS[0].name} AND {DEMO_PLANS[1]?.name || 'Plan 2'}
+                  Required: Plan 1 AND Plan 2
                 </div>
               </div>
             </SubscriptionGuard>

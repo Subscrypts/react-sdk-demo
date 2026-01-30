@@ -6,12 +6,11 @@
 
 import { usePlans } from '@subscrypts/react-sdk';
 import { DemoCard } from '../shared';
-import { DEMO_PLANS } from '../../../config/plans';
 import { useState } from 'react';
 
 export function UsePlansDemo() {
-  const allPlanIds = DEMO_PLANS.map((p) => p.id);
-  const [selectedPlanIds, setSelectedPlanIds] = useState<string[]>([allPlanIds[0], allPlanIds[1]]);
+  const allPlanIds = ['1', '2', '3'];
+  const [selectedPlanIds, setSelectedPlanIds] = useState<string[]>(['1', '2']);
 
   const { plans, isLoading, error } = usePlans(selectedPlanIds);
 
@@ -36,7 +35,7 @@ export function UsePlansDemo() {
             Select Plans to Fetch:
           </label>
           <div className="space-y-2">
-            {allPlanIds.map((planId, index) => (
+            {allPlanIds.map((planId) => (
               <label key={planId} className="flex items-center">
                 <input
                   type="checkbox"
@@ -45,7 +44,7 @@ export function UsePlansDemo() {
                   className="mr-2"
                 />
                 <span className="text-sm text-gray-700">
-                  {DEMO_PLANS[index].name} Plan (ID: {planId})
+                  Plan {planId}
                 </span>
               </label>
             ))}

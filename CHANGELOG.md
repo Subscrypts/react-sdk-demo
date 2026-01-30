@@ -9,7 +9,60 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-#### SDK Version
+#### Major Architecture Simplification - Removed Custom Wrappers
+- **Removed** custom `DEMO_PLANS` configuration (`src/config/plans.ts`)
+  - Plan data now fetched directly from blockchain via SDK hooks
+  - Eliminates string vs number type conversion issues
+  - No longer needed for plan name display
+  - 13 files previously depended on this custom configuration
+
+- **Removed** custom `PlanCard` component (`src/components/subscription/PlanCard.tsx`)
+  - Replaced with SDK's built-in `PricingTable` component
+  - SDK component provides automatic data fetching, styling, and checkout integration
+  - Demonstrates proper SDK usage patterns for developers
+
+- **Refactored** Pricing page (`src/pages/Pricing.tsx`)
+  - Now uses SDK's `<PricingTable>` component directly
+  - One component replaces entire custom grid + card logic
+  - Plans: 1 (Basic), 2 (Pro - featured), 3 (Enterprise)
+  - Hardcoded plan IDs: `['1', '2', '3']`
+  - Automatic checkout flow with `onSubscriptionSuccess` callback
+
+- **Simplified** Account and Premium pages
+  - Hardcoded merchant plan IDs: `[1, 2]` (Basic and Pro plans)
+  - Removed plan name mapping (displays "Plan {id}")
+  - Cleaner subscription filtering logic using `Number(sub.planId)`
+  - Fixed type mismatch by ensuring numeric comparison
+
+- **Updated** 10 demo component files
+  - Replaced `DEMO_PLANS` imports with hardcoded `const DEMO_PLAN_IDS = ['1', '2', '3']`
+  - Dropdowns now show "Plan 1", "Plan 2", "Plan 3"
+  - Focuses demos on SDK functionality, not custom configuration
+  - Files updated:
+    - CheckoutWizardDemo.tsx
+    - PlanCardDemo.tsx
+    - PricingTableDemo.tsx
+    - SubscriptionGuardDemo.tsx
+    - SubscryptsButtonDemo.tsx
+    - UsePlanDemo.tsx
+    - UsePlanPriceDemo.tsx
+    - UsePlansDemo.tsx
+    - UseSubscribeDemo.tsx
+    - UseSubscriptionStatusDemo.tsx
+
+### Removed
+- `src/config/plans.ts` - Custom plan configuration file
+- `src/components/subscription/PlanCard.tsx` - Custom wrapper component
+- Environment variable dependency (`VITE_DEMO_PLAN_ID_*` no longer required)
+
+### Impact
+- **Simpler deployment**: No environment variables needed for plan IDs
+- **Better demo**: Shows SDK components as intended by package authors
+- **Fewer bugs**: No type conversion issues between string and number plan IDs
+- **Less code**: 2 files deleted, 13 files simplified
+- **Production ready**: Deployment to Vercel no longer requires .env.local configuration
+
+### SDK Version
 - **Upgraded** @subscrypts/react-sdk from 1.4.0 to 1.4.1
   - Fixes critical subscription detection bug in v1.4.0
   - Patch version with full backward compatibility

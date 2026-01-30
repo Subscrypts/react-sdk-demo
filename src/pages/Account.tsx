@@ -18,7 +18,6 @@
 
 import { useWallet, useTokenBalance, useMySubscriptions, canAccess } from '@subscrypts/react-sdk';
 import { Link, Navigate } from 'react-router-dom';
-import { DEMO_PLANS } from '../config/plans';
 
 function Account() {
   const { isConnected, address, disconnect } = useWallet();
@@ -33,12 +32,10 @@ function Account() {
   } = useMySubscriptions(address || undefined, 10);
 
   // Filter to show ALL subscriptions (active AND inactive) to this merchant's plans only (plan IDs 1 and 2)
-  const merchantPlans = DEMO_PLANS.slice(0, 2); // Only Basic (ID 1) and Pro (ID 2)
+  // Hardcode merchant plan IDs for this demo (Basic: 1, Pro: 2)
+  const MERCHANT_PLAN_IDS: number[] = [1, 2];
   const subscriptions = allSubscriptions.filter(sub => {
-    // Convert numeric planId from blockchain to string for comparison with DEMO_PLANS
-    const planIdStr = String(sub.planId);
-    const isMerchantPlan = merchantPlans.some(plan => plan.id === planIdStr);
-    return isMerchantPlan;
+    return MERCHANT_PLAN_IDS.includes(Number(sub.planId));
   });
 
   // Redirect to home if wallet not connected
@@ -219,10 +216,8 @@ function Account() {
           {!subsLoading2 && subscriptions.length > 0 && (
             <div className="space-y-4">
               {subscriptions.map((subscription) => {
-                // Convert numeric planId from blockchain to string for comparison with DEMO_PLANS
-                const planIdStr = String(subscription.planId);
-                const matchingPlan = DEMO_PLANS.find(plan => plan.id === planIdStr);
-                const planName = matchingPlan ? `${matchingPlan.name} Plan` : `Plan ${subscription.planId}`;
+                // Display plan ID directly
+                const planName = `Plan ${subscription.planId}`;
                 const isActive = canAccess(subscription);
 
                 return (
@@ -280,12 +275,6 @@ function Account() {
                             <span className="font-medium">Remaining Cycles:</span>{' '}
                             {subscription.remainingCycles}
                           </p>
-                          {matchingPlan && (
-                            <p className="text-gray-700">
-                              <span className="font-medium">Plan Price:</span>{' '}
-                              {matchingPlan.pricePerMonth}
-                            </p>
-                          )}
                         </div>
 
                         {/* Expandable Full Subscription Data */}

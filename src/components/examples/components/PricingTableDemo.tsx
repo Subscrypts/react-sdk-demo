@@ -6,7 +6,6 @@
 
 import { PricingTable, useWallet } from '@subscrypts/react-sdk';
 import { DemoCard, ConnectWalletPrompt } from '../shared';
-import { DEMO_PLANS } from '../../../config/plans';
 import { useState } from 'react';
 
 export function PricingTableDemo() {
@@ -28,24 +27,24 @@ export function PricingTableDemo() {
   }
 
   // Simple plan IDs
-  const simplePlans = DEMO_PLANS.map(p => p.id);
+  const simplePlans = ['1', '2', '3'];
 
   // Advanced configuration with per-plan customization
   const advancedPlans = [
     {
-      planId: DEMO_PLANS[0].id,
+      planId: '1',
       title: 'Starter',
       subscribeLabel: 'Get Started',
       featured: false,
     },
     {
-      planId: DEMO_PLANS[1].id,
+      planId: '2',
       title: 'Professional',
       subscribeLabel: 'Go Pro',
       featured: true,  // Highlight this plan
     },
     {
-      planId: DEMO_PLANS[2].id,
+      planId: '3',
       title: 'Business',
       subscribeLabel: 'Contact Sales',
       featured: false,
