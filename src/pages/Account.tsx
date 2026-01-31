@@ -18,6 +18,7 @@
 
 import { useWallet, useTokenBalance, useMySubscriptions, canAccess } from '@subscrypts/react-sdk';
 import { Link, Navigate } from 'react-router-dom';
+import { SubscriptionDiagnostics } from '../components/subscription/SubscriptionDiagnostics';
 
 function Account() {
   const { isConnected, address, disconnect } = useWallet();
@@ -159,6 +160,11 @@ function Account() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Subscription Diagnostics */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <SubscriptionDiagnostics />
         </div>
 
         {/* Subscriptions */}
