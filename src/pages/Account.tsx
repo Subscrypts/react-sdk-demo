@@ -18,7 +18,6 @@
 
 import { useWallet, useTokenBalance, useMySubscriptions, canAccess } from '@subscrypts/react-sdk';
 import { Link, Navigate } from 'react-router-dom';
-import { SubscriptionDiagnostics } from '../components/subscription/SubscriptionDiagnostics';
 
 function Account() {
   const { isConnected, address, disconnect } = useWallet();
@@ -69,30 +68,6 @@ function Account() {
   return (
     <div className="bg-gray-50 py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Developer Note - SDK v1.4.1 Implementation */}
-        <div className="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded">
-          <div className="flex items-start">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-green-800">
-                SDK v1.4.1 Implementation
-              </h3>
-              <div className="mt-2 text-sm text-green-700">
-                <p>This page uses modern SDK patterns:</p>
-                <ul className="list-disc list-inside mt-1 space-y-1">
-                  <li><code className="bg-green-100 px-1 rounded">useMySubscriptions</code> - Fetches all subscriptions</li>
-                  <li><code className="bg-green-100 px-1 rounded">canAccess()</code> - Validates active access (v1.2.0)</li>
-                  <li>No custom validation logic - uses SDK utilities</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
@@ -160,11 +135,6 @@ function Account() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Subscription Diagnostics */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-          <SubscriptionDiagnostics />
         </div>
 
         {/* Subscriptions */}
