@@ -1,16 +1,68 @@
 # Subscrypts React SDK Demo
 
-A comprehensive demo application showcasing **ALL features** of the [Subscrypts React SDK v1.4.0](https://github.com/Subscrypts/react-sdk). This production-ready boilerplate demonstrates how to build subscription-based applications on Arbitrum with wallet integration, content protection, seamless checkout flows, and powerful developer tools.
+A comprehensive demo application showcasing **ALL features** of the [Subscrypts React SDK](https://github.com/Subscrypts/react-sdk). This production-ready boilerplate demonstrates how to build subscription-based applications on Arbitrum with wallet integration, content protection, seamless checkout flows, and powerful developer tools.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Subscrypts/react-sdk-demo)
 
-> ✨ **Built with Subscrypts React SDK v1.4.0** - Showcases **16 hooks**, **15 components**, and **22+ utilities** with live, interactive examples!
+> ✨ **Built with Subscrypts React SDK** - Showcases **16 hooks**, **15 components**, and **22+ utilities** with live, interactive examples!
 >
 > 🎓 **Perfect for Learning** - Context-aware developer documentation sidebar on every page with copy-pasteable code examples.
+>
+> ⚠️ **HTTPS Required** - This demo requires HTTPS to interact with MetaMask and browser extension wallets.
+
+---
+
+## ⚠️ IMPORTANT: HTTPS Required
+
+**The Subscrypts SDK and browser extension wallets (MetaMask, etc.) require HTTPS to function.**
+
+### ❌ Local HTTP Development Will NOT Work
+Running `npm run dev` on `http://localhost:5173` will **not** allow wallet connections because:
+- Browser extension wallets block requests from non-secure origins
+- The SDK cannot communicate with the wallet on HTTP
+- This is a security feature of browser extension wallets, not a bug
+
+### ✅ Working Development Options
+
+#### Option 1: Deploy to Vercel (Recommended - Easiest)
+The fastest way to see the demo working:
+
+1. **Fork this repository** on GitHub
+2. **Connect to Vercel**: [vercel.com/new](https://vercel.com/new) → Import your fork
+3. **Auto-deploy**: Every push to `main` automatically deploys with HTTPS
+
+> 💡 **Why Vercel?** Automatic HTTPS, instant previews, zero configuration
+
+#### Option 2: Use ngrok (For Local Testing)
+Create an HTTPS tunnel to your local development server:
+
+```bash
+# Terminal 1: Start the dev server
+npm run dev
+
+# Terminal 2: Create HTTPS tunnel
+npx ngrok http 5173
+
+# Copy the HTTPS URL (e.g., https://abc123.ngrok.io)
+# Open that URL in your browser
+```
+
+> ⚠️ **ngrok Limitations**: Free tier has session limits, URLs change on restart
+
+#### Option 3: Local HTTPS (Advanced)
+Set up a local HTTPS certificate (requires additional configuration):
+
+```bash
+# Build the project
+npm run build
+
+# Serve with HTTPS (using a tool like serve or local-ssl-proxy)
+npx serve dist -l 443 --ssl
+```
+
+---
 
 ## 🚀 Quick Start
-
-Get the demo running locally in under 5 minutes:
 
 ### Prerequisites
 
@@ -35,33 +87,15 @@ cd react-sdk-demo
 npm install
 ```
 
-3. **Configure environment variables**
+3. **Build for production**
 
 ```bash
-cp .env.example .env.local
+npm run build
 ```
 
-Edit `.env.local` with your Subscrypts plan IDs:
+4. **Deploy to see it working** (HTTPS required)
 
-```bash
-VITE_DEMO_PLAN_ID_BASIC=1
-VITE_DEMO_PLAN_ID_PRO=2
-VITE_DEMO_PLAN_ID_ENTERPRISE=3
-```
-
-> 💡 **How to get plan IDs**: Visit the [Subscrypts Platform](https://subscrypts.com), create your subscription plans, and copy the plan IDs.
-
-4. **Start the development server**
-
-```bash
-npm run dev
-```
-
-5. **Open your browser**
-
-Navigate to [http://localhost:5173](http://localhost:5173)
-
-You should see the demo application running! 🎉
+See deployment options above (Vercel recommended).
 
 ---
 
@@ -219,8 +253,7 @@ react-sdk-demo/
 │   ├── App.tsx                         # Main app with 9 routes
 │   └── main.tsx                        # Entry point with SubscryptsProvider
 ├── public/
-├── .env.example                        # Environment variables template
-├── package.json                        # Dependencies (SDK v1.4.0)
+├── package.json                        # Dependencies
 ├── vite.config.ts                      # Vite build configuration
 ├── UPDATING_SDK.md                     # SDK update process guide
 └── README.md                           # This file
@@ -229,18 +262,6 @@ react-sdk-demo/
 ---
 
 ## ⚙️ Configuration
-
-### Environment Variables
-
-Create a `.env.local` file based on `.env.example`:
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VITE_DEMO_PLAN_ID_BASIC` | Basic plan ID from Subscrypts platform | Yes |
-| `VITE_DEMO_PLAN_ID_PRO` | Pro plan ID from Subscrypts platform | Yes |
-| `VITE_DEMO_PLAN_ID_ENTERPRISE` | Enterprise plan ID from Subscrypts platform | Yes |
-| `VITE_RPC_URL` | Custom Arbitrum RPC URL (optional) | No |
-| `VITE_REFERRAL_ADDRESS` | Referral address for subscriptions (optional) | No |
 
 ### Network Requirements
 
@@ -342,16 +363,7 @@ npm i -g vercel
 vercel
 ```
 
-3. **Set Environment Variables**
-
-In your Vercel dashboard:
-- Go to Project Settings → Environment Variables
-- Add your plan IDs:
-  - `VITE_DEMO_PLAN_ID_BASIC`
-  - `VITE_DEMO_PLAN_ID_PRO`
-  - `VITE_DEMO_PLAN_ID_ENTERPRISE`
-
-4. **Redeploy**
+3. **Redeploy**
 
 ```bash
 vercel --prod
@@ -388,13 +400,12 @@ In Vercel dashboard:
 
 ### MetaMask Not Connecting
 
-**Problem**: Wallet connection fails.
+**Problem**: Wallet connection fails on HTTP localhost.
 
 **Solution**:
-- Ensure MetaMask extension is installed and unlocked
-- Refresh the page and try again
-- Check browser console for errors
-- Try using a different browser
+- **This is expected** - MetaMask requires HTTPS
+- Deploy to Vercel for HTTPS, or use ngrok for local HTTPS tunnel
+- See [⚠️ HTTPS Required](#-important-https-required) section
 
 ### Transaction Failed
 
@@ -450,7 +461,7 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 ## 🙏 Acknowledgments
 
 Built with:
-- [Subscrypts React SDK v1.4.0](https://github.com/Subscrypts/react-sdk) - Official React SDK for decentralized subscriptions
+- [Subscrypts React SDK](https://github.com/Subscrypts/react-sdk) - Official React SDK for decentralized subscriptions
 - [Vite 5.0](https://vitejs.dev/) - Next generation frontend tooling
 - [React 18.2](https://react.dev/) - UI library
 - [TypeScript 5.3](https://www.typescriptlang.org/) - Type safety
@@ -469,6 +480,10 @@ For more information, visit [subscrypts.com](https://subscrypts.com)
 
 This demo tracks SDK updates to showcase modular architecture best practices:
 
+- **v1.5.2** (2026-01-31) - Fixed `useMySubscriptions` hook with smart fallback strategy
+- **v1.5.1** (2026-01-31) - Fixed contract runner error for read operations
+- **v1.5.0** (2026-01-31) - Architectural consolidation, removed ContractService
+- **v1.4.4** (2026-01-31) - Fixed data transformation bug in ContractService
 - **v1.4.0** (2026-01-28) - Merchant Toolkit: `useMerchantPlans`, `useMerchantSubscribers`, `useMerchantRevenue`, `MerchantDashboard`
 - **v1.3.0** - Dashboard Components: `SubscriptionDashboard`, `SubscriptionCard`, `useMySubscriptions`, `useSubscryptsEvents`
 - **v1.2.0** - Management & Pricing: `useManageSubscription`, `ManageSubscriptionModal`, `useSUBSPrice`, `usePlanPrice`, decision helpers
@@ -476,4 +491,4 @@ This demo tracks SDK updates to showcase modular architecture best practices:
 - **v1.0.11** - Plans: `usePlan`, `usePlans`, `PlanCard`, `PricingTable`, provider lifecycle callbacks
 - **v1.0.0** - Core: `useWallet`, `useSubscriptionStatus`, `SubscryptsButton`, `SubscriptionGuard`, `CheckoutWizard`
 
-See [UPDATING_SDK.md](UPDATING_SDK.md) for the complete update process from v1.0.9 → v1.4.0.
+See [UPDATING_SDK.md](UPDATING_SDK.md) for the complete update process.
