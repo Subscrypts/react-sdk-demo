@@ -72,10 +72,10 @@ export function DebugPanel() {
 
   return (
     <>
-      {/* Toggle Button */}
+      {/* Toggle Button - Positioned on LEFT side to avoid overlap with Dev Docs toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-4 right-4 z-50 px-4 py-2 rounded-lg font-medium transition-all ${
+        className={`fixed bottom-4 left-4 z-50 px-4 py-2 rounded-lg font-medium transition-all shadow-lg ${
           isOpen 
             ? 'bg-red-600 text-white hover:bg-red-700' 
             : 'bg-purple-600 text-white hover:bg-purple-700'
@@ -84,9 +84,9 @@ export function DebugPanel() {
         {isOpen ? '✕ Close Debug' : '🔍 Debug [v1.6.0]'}
       </button>
 
-      {/* Debug Panel Overlay */}
+      {/* Debug Panel Overlay - Positioned on LEFT side */}
       {isOpen && (
-        <div className="fixed bottom-16 right-4 z-50 w-96 max-h-[70vh] overflow-y-auto bg-gray-900 text-white rounded-lg shadow-2xl border border-purple-500">
+        <div className="fixed bottom-16 left-4 z-50 w-96 max-h-[70vh] overflow-y-auto bg-gray-900 text-white rounded-lg shadow-2xl border border-purple-500">
           <div className="p-4">
             <h3 className="text-lg font-bold text-purple-400 mb-4">
               🔍 SDK v1.6.0 Debug Panel

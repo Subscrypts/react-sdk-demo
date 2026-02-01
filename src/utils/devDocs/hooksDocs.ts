@@ -192,5 +192,399 @@ return <div>{data}</div>;`,
         },
       ],
     },
+    // Additional hook documentation for hooks shown in demo
+    {
+      id: 'use-plan-hooks',
+      title: 'Plan Hooks (usePlan, usePlans, usePlansByMerchant)',
+      type: 'hook',
+      version: '1.0.11 - 1.2.0',
+      description: 'Fetch and manage subscription plan data with automatic caching.',
+      code: `import {
+  usePlan,
+  usePlans,
+  usePlansByMerchant,
+  usePlanPrice
+} from '@subscrypts/react-sdk';
+
+// Single plan
+function PlanDetails({ planId }) {
+  const { plan, isLoading, error } = usePlan(planId);
+  
+  if (isLoading) return <Loading />;
+  if (error) return <Error error={error} />;
+  
+  return <div>{plan.name} - {plan.price}</div>;
+}
+
+// Multiple plans (parallel fetching)
+function PlanGrid() {
+  const { plans, isLoading } = usePlans(['plan-1', 'plan-2', 'plan-3']);
+  
+  return (
+    <div className="grid grid-cols-3">
+      {plans.map(plan => (
+        <PlanCard key={plan.id} plan={plan} />
+      ))}
+    </div>
+  );
+}
+
+// Plans by merchant
+function MerchantStore({ merchantAddress }) {
+  const { plans, isLoading } = usePlansByMerchant(merchantAddress);
+  
+  return (
+    <div>
+      <h2>Available Plans</h2>
+      {plans.map(plan => (
+        <PlanCard key={plan.id} plan={plan} />
+      ))}
+    </div>
+  );
+}
+
+// Plan with USD price
+function PricedPlan({ planId }) {
+  const { plan, usdPrice, isLoading } = usePlanPrice(planId);
+  
+  return (
+    <div>
+      <p>{plan?.price} SUBS</p>
+      <p>~{'$'}{usdPrice?.toFixed(2)} USD</p>
+    </div>
+  );
+}`,
+      notes: [
+        'usePlan (v1.0.11) - Single plan with infinite cache (plans are static)',
+        'usePlans (v1.0.11) - Multiple plans fetched in parallel',
+        'usePlansByMerchant (v1.2.0) - All plans by merchant address',
+        'usePlanPrice (v1.2.0) - Plan with USD conversion',
+        'All plan hooks cached in v1.6.0+ for 80-90% RPC reduction',
+        'usePlans is more efficient than multiple usePlan calls',
+      ],
+    },
+    {
+      id: 'use-subscription-hooks',
+      title: 'Subscription Hooks (useSubscriptionStatus, useSubscribe, useMySubscriptions)',
+      type: 'hook',
+      version: '1.0.0 - 1.3.0',
+      description: 'Check subscription status, create subscriptions, and manage user subscriptions.',
+      code: `import {
+  useSubscriptionStatus,
+  useSubscribe,
+  useMySubscriptions,
+  useManageSubscription
+} from '@subscrypts/react-sdk';
+
+// Check if user has active subscription
+function ContentGuard({ planId, children }) {
+  const { isActive, status, isLoading } = useSubscriptionStatus(planId);
+  
+  if (isLoading) return <Loading />;
+  if (!isActive) return <SubscribePrompt planId={planId} />;
+  
+  return children;
+}
+
+// Create subscription
+function SubscribeButton({ planId }) {
+  const { subscribe, isLoading, error } = useSubscribe();
+  
+  const handleSubscribe = async (paymentMethod) => {
+    try {
+      const result = await subscribe({
+        planId,
+        paymentMethod, // 'SUBS' or 'USDC'
+        duration: 12, // months
+      });
+      
+      console.log('Success:', result);
+    } catch (err) {
+      console.error('Failed:', err);
+    }
+  };
+  
+  return (
+    <button onClick={() => handleSubscribe('SUBS')} disabled={isLoading}>
+      {isLoading ? 'Subscribing...' : 'Subscribe'}
+    </button>
+  );
+}
+
+// List user subscriptions
+function MySubscriptions() {
+  const { subscriptions, isLoading, pagination } = useMySubscriptions({
+    pageSize: 10,
+  });
+  
+  return (
+    <div>
+      {subscriptions.map(sub => (
+        <SubscriptionCard key={sub.id} subscription={sub} />
+      ))}
+      
+      <Pagination
+        currentPage={pagination.currentPage}
+        totalPages={pagination.totalPages}
+        onPageChange={pagination.goToPage}
+      />
+    </div>
+  );
+}
+
+// Manage subscription
+function SubscriptionActions({ subscription }) {
+  const { cancel, toggleAutoRenew, isLoading } = useManageSubscription();
+  
+  return (
+    <div>
+      <button onClick={() => cancel(subscription.id)} disabled={isLoading}>
+        Cancel
+      </button>
+      <button onClick={() => toggleAutoRenew(subscription.id)} disabled={isLoading}>
+        Toggle Auto-Renew
+      </button>
+    </div>
+  );
+}`,
+      notes: [
+        'useSubscriptionStatus (v1.0.0) - Check active status with smart TTL caching',
+        'useSubscribe (v1.0.0) - Create new subscriptions with transaction tracking',
+        'useMySubscriptions (v1.3.0) - Paginated list of user subscriptions',
+        'useManageSubscription (v1.2.0) - Cancel, toggle auto-renewal, update cycles',
+        'v1.6.0+ adds 70% RPC reduction for status checks via caching',
+        'useSubscribe automatically handles sanctions pre-flight checks',
+      ],
+    },
+    {
+      id: 'merchant-hooks',
+      title: 'Merchant Hooks (useMerchantPlans, useMerchantSubscribers, useMerchantRevenue)',
+      type: 'hook',
+      version: '1.4.0',
+      description: 'Build merchant dashboards with subscription business analytics.',
+      code: `import {
+  useMerchantPlans,
+  useMerchantSubscribers,
+  useMerchantRevenue
+} from '@subscrypts/react-sdk';
+
+function MerchantDashboard({ merchantAddress }) {
+  // Get all merchant plans
+  const { plans, isLoading: plansLoading } = useMerchantPlans(merchantAddress);
+  
+  // Get subscribers for a specific plan
+  const { subscribers, isLoading: subsLoading } = useMerchantSubscribers('plan-123', {
+    pageSize: 10,
+    status: 'active', // 'active', 'cancelled', 'all'
+  });
+  
+  // Calculate revenue
+  const { mrr, totalRevenue, subscriberCount, isLoading: revenueLoading } = 
+    useMerchantRevenue(merchantAddress);
+
+  return (
+    <div>
+      <RevenueCard mrr={mrr} totalRevenue={totalRevenue} />
+      
+      <h3>Your Plans ({plans.length})</h3>
+      {plans.map(plan => (
+        <PlanPerformanceCard key={plan.id} plan={plan} />
+      ))}
+      
+      <h3>Recent Subscribers</h3>
+      {subscribers.map(sub => (
+        <SubscriberRow key={sub.id} subscriber={sub} />
+      ))}
+    </div>
+  );
+}`,
+      notes: [
+        'v1.4.0 feature - Merchant toolkit',
+        'useMerchantPlans: List all plans owned by merchant',
+        'useMerchantSubscribers: Paginated subscriber list per plan',
+        'useMerchantRevenue: Calculate MRR and total revenue',
+        'MRR = Monthly Recurring Revenue from active subscriptions',
+        'All merchant hooks include caching in v1.6.0+',
+      ],
+    },
+    {
+      id: 'pricing-hooks',
+      title: 'Pricing Hooks (useSUBSPrice, useTokenBalance)',
+      type: 'hook',
+      version: '1.0.0 - 1.2.0',
+      description: 'Get real-time token prices and balances.',
+      code: `import {
+  useSUBSPrice,
+  useTokenBalance,
+  useWallet
+} from '@subscrypts/react-sdk';
+
+function PricingInfo() {
+  // Get SUBS/USD price
+  const { 
+    price: subsPrice, 
+    formattedPrice,
+    isLoading: priceLoading,
+    lastUpdated 
+  } = useSUBSPrice();
+  
+  // Get wallet balances
+  const { address } = useWallet();
+  const { 
+    subsBalance, 
+    usdcBalance,
+    formattedSubsBalance,
+    formattedUsdcBalance,
+    isLoading: balanceLoading 
+  } = useTokenBalance(address);
+
+  return (
+    <div>
+      <h3>Current Prices</h3>
+      <p>1 SUBS = {'$'}{formattedPrice} USD</p>
+      <p>Last updated: {new Date(lastUpdated).toLocaleTimeString()}</p>
+      
+      <h3>Your Balances</h3>
+      <p>SUBS: {formattedSubsBalance}</p>
+      <p>USDC: {formattedUsdcBalance}</p>
+    </div>
+  );
+}`,
+      notes: [
+        'useSUBSPrice (v1.2.0) - Real-time SUBS/USD price from DEX',
+        'useTokenBalance (v1.0.0) - SUBS and USDC balances',
+        'Auto-refresh with configurable interval',
+        'Formatted values for display',
+        'Raw bigint values for calculations',
+      ],
+    },
+    {
+      id: 'event-hooks',
+      title: 'Event Hooks (useSubscryptsEvents)',
+      type: 'hook',
+      version: '1.3.0',
+      description: 'Listen to real-time protocol events for reactive applications.',
+      code: `import { useSubscryptsEvents } from '@subscrypts/react-sdk';
+
+function EventMonitor() {
+  const events = useSubscryptsEvents({
+    events: [
+      'SubscriptionCreated',
+      'SubscriptionRenewed',
+      'SubscriptionCancelled',
+      'PaymentProcessed',
+    ],
+    filter: {
+      subscriber: userAddress, // Filter by subscriber
+      // planId: 'plan-123',   // Filter by plan
+    },
+    onEvent: (event) => {
+      console.log('New event:', event);
+      
+      // Show notification
+      showToast({
+        type: 'success',
+        message: \`Subscription \${event.type}: \${event.planName}\`,
+      });
+    },
+  });
+
+  return (
+    <div>
+      <h3>Recent Activity</h3>
+      {events.map((event, i) => (
+        <EventCard key={i} event={event} />
+      ))}
+    </div>
+  );
+}`,
+      notes: [
+        'v1.3.0 feature - Real-time event listening',
+        'Listen to protocol events without polling',
+        'Filter by subscriber, plan, or merchant',
+        'Callback on each new event',
+        'Use for notifications, analytics, real-time updates',
+        'Events: SubscriptionCreated, Renewed, Cancelled, PaymentProcessed',
+      ],
+    },
+    {
+      id: 'core-hooks',
+      title: 'Core Hooks (useWallet, useSubscrypts)',
+      type: 'hook',
+      version: '1.0.0',
+      description: 'Essential hooks for wallet connection and SDK context access.',
+      code: `import {
+  useWallet,
+  useSubscrypts
+} from '@subscrypts/react-sdk';
+
+// Wallet connection
+function WalletStatus() {
+  const {
+    address,
+    isConnected,
+    isConnecting,
+    chainId,
+    connect,
+    disconnect,
+    switchNetwork,
+    connector
+  } = useWallet();
+
+  if (!isConnected) {
+    return <button onClick={connect}>Connect Wallet</button>;
+  }
+
+  return (
+    <div>
+      <p>Connected: {address}</p>
+      <p>Network: {chainId}</p>
+      <button onClick={disconnect}>Disconnect</button>
+      <button onClick={() => switchNetwork(42161)}>Switch to Arbitrum</button>
+    </div>
+  );
+}
+
+// Direct SDK access
+function AdvancedIntegration() {
+  const {
+    subscryptsContract,
+    subsTokenContract,
+    usdcContract,
+    provider,
+    signer,
+    isReady,
+    cacheManager, // v1.6.0+
+    logger
+  } = useSubscrypts();
+
+  // Access cache manager (v1.6.0+)
+  const clearCache = () => {
+    cacheManager?.clear?.();
+  };
+
+  // Custom contract call
+  const customCall = async () => {
+    if (!isReady) return;
+    const result = await subscryptsContract.someMethod();
+    return result;
+  };
+
+  return (
+    <div>
+      <button onClick={clearCache}>Clear Cache</button>
+      <button onClick={customCall}>Custom Call</button>
+    </div>
+  );
+}`,
+      notes: [
+        'useWallet (v1.0.0) - Wallet connection, network switching',
+        'useSubscrypts (v1.0.0) - Direct SDK context access',
+        'useSubscrypts provides contract instances for advanced use',
+        'v1.6.0+ adds cacheManager to useSubscrypts',
+        'isReady indicates contracts are initialized',
+        'Use for custom contract interactions not covered by hooks',
+      ],
+    },
   ],
 };
