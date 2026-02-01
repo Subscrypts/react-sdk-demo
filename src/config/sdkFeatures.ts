@@ -162,6 +162,11 @@ export const PROVIDER_PROPS: SDKFeature[] = [
   { name: 'persistSession', version: '1.1.0', category: 'type', description: 'Remember wallet connections' },
   { name: 'onAccountChange', version: '1.0.11', category: 'type', description: 'Callback when user switches accounts' },
   { name: 'onChainChange', version: '1.0.11', category: 'type', description: 'Callback when user switches networks' },
+  
+  // [v1.6.0] Caching Configuration
+  { name: 'caching.enabled', version: '1.6.0', category: 'type', description: 'Enable/disable intelligent caching (default: true)' },
+  { name: 'caching.defaultTTL', version: '1.6.0', category: 'type', description: 'Default cache TTL in milliseconds (default: 60000)' },
+  { name: 'caching.maxEntries', version: '1.6.0', category: 'type', description: 'Maximum cache entries before LRU eviction (default: 500)' },
 ];
 
 /**
@@ -234,5 +239,5 @@ export const SDK_STATS = {
   utilities: SDK_UTILITIES.length,
   constants: SDK_CONSTANTS.length,
   providerProps: PROVIDER_PROPS.length,
-  currentVersion: '1.4.0',
+  currentVersion: '1.6.0', // [v1.6.0] Updated to latest SDK version
 };

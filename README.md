@@ -480,6 +480,13 @@ For more information, visit [subscrypts.com](https://subscrypts.com)
 
 This demo tracks SDK updates to showcase modular architecture best practices:
 
+- **v1.6.0** (2026-02-01) - Performance & Debugging Major Release
+  - **Intelligent Caching System** - 80-90% RPC reduction with zero-config defaults
+  - **Sanctions Pre-flight Checks** - Client-side validation prevents wasted gas
+  - **Enhanced Debug Mode** - Performance metrics, correlation IDs, DebugPanel component
+  - **Chain ID Namespacing** - Prevents testnet/mainnet cache collisions
+  - **Auto-invalidation** - Automatic cache clearing after successful subscriptions
+  - **Pattern-based Cache Invalidation** - Precise cache control by key patterns
 - **v1.5.2** (2026-01-31) - Fixed `useMySubscriptions` hook with smart fallback strategy
 - **v1.5.1** (2026-01-31) - Fixed contract runner error for read operations
 - **v1.5.0** (2026-01-31) - Architectural consolidation, removed ContractService
@@ -491,4 +498,3 @@ This demo tracks SDK updates to showcase modular architecture best practices:
 - **v1.0.11** - Plans: `usePlan`, `usePlans`, `PlanCard`, `PricingTable`, provider lifecycle callbacks
 - **v1.0.0** - Core: `useWallet`, `useSubscriptionStatus`, `SubscryptsButton`, `SubscriptionGuard`, `CheckoutWizard`
 
-See [UPDATING_SDK.md](UPDATING_SDK.md) for the complete update process.

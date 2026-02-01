@@ -3,6 +3,7 @@
  *
  * Advanced SDK features and patterns including provider configuration,
  * logging, permit signatures, direct contract access, and error handling.
+ * [v1.6.0] Added: Performance Dashboard, Caching Playground, Sanctions Demo
  */
 
 import { DemoSection } from '../../components/examples/shared';
@@ -12,6 +13,9 @@ import {
   PermitSigningDemo,
   DirectContractDemo,
   ErrorPatternsDemo,
+  PerformanceDashboardDemo,
+  CachingPlaygroundDemo,
+  SanctionsDemo,
 } from '../../components/examples/advanced';
 
 export default function AdvancedPage() {
@@ -71,6 +75,33 @@ export default function AdvancedPage() {
           description="Access raw contracts, signers, and providers for advanced custom functionality."
         >
           <DirectContractDemo />
+        </DemoSection>
+
+        {/* [v1.6.0] Performance Dashboard */}
+        <DemoSection
+          id="performance-dashboard"
+          title="📊 Performance Dashboard [v1.6.0]"
+          description="Real-time cache statistics and RPC savings visualization. Monitor 80-90% RPC reduction from intelligent caching."
+        >
+          <PerformanceDashboardDemo />
+        </DemoSection>
+
+        {/* [v1.6.0] Caching Playground */}
+        <DemoSection
+          id="caching-playground"
+          title="⚡ Caching Playground [v1.6.0]"
+          description="Interactive cache configuration demo. Experiment with manual invalidation, pattern matching, and real-time statistics."
+        >
+          <CachingPlaygroundDemo />
+        </DemoSection>
+
+        {/* [v1.6.0] Sanctions Pre-flight */}
+        <DemoSection
+          id="sanctions-demo"
+          title="🛡️ Sanctions Pre-flight [v1.6.0]"
+          description="Client-side sanctions validation prevents wasted gas. See how SanctionsError provides clear feedback before transactions."
+        >
+          <SanctionsDemo />
         </DemoSection>
       </div>
 
